@@ -3,15 +3,15 @@ Contributors: webdados, wonderm00n
 Tags: woocommerce, payment, multibanco, ecommerce, e-commerce, ifthen, ifthen software, webdados
 Author URI: http://www.webdados.pt
 Plugin URI: http://www.webdados.pt/produtos-e-servicos/internet/desenvolvimento-wordpress/multibanco-ifthen-software-gateway-woocommerce-wordpress/
-Requires at least: 3.6
-Tested up to: 3.7.1
-Stable tag: 1.0
+Requires at least: 3.8
+Tested up to: 3.8.1
+Stable tag: 1.0.1
 
 This plugin adds the hability of Portuguese costumers to pay WooCommerce orders with "Multibanco (Pag. Serviços)", using the Ifthen Software gateway.
 
 == Description ==
 
-"Pagamento de Serviços" (service payment) on Multibanco (the Portuguese ATM network), or on Home Banking services, is the most popular way of paying services and (online) purchases in Portugal.
+"Pagamento de Serviços" (service payment) on Multibanco (the Portuguese ATM network), or on Home Banking services, is the most popular way of paying services and (online) purchases in Portugal. The Portuguese consumer trusts in the "Multibanco" system more than any other.
 
 This plugin will allow you to generate a payment Reference that the customer can then use to pay for his order on the ATM or Home Banking service. This plugin uses one of the several gateways/services available in Portugal, provided by Ifthen Software, and a contract with this company is required.
 
@@ -37,6 +37,10 @@ This is NOT an official plugin by Ifthen, yet it has been tested with them and i
 The plugin is new, so no question is frequent. Ask us something ;-)
 
 == Changelog ==
+
+= 1.0.1 =
+* Fix: On some environments some labels were not being translated correctly
+* Minor changes to allow to run upgrade tasks
 
 = 1.0 =
 * Initial release.

@@ -3,7 +3,7 @@
  * Plugin Name: Multibanco (Ifthen Software gateway) for WooCommerce
  * Plugin URI: http://www.webdados.pt/produtos-e-servicos/internet/desenvolvimento-wordpress/multibanco-ifthen-software-gateway-woocommerce-wordpress/
  * Description: This plugin adds the hability of Portuguese costumers to pay WooCommerce orders with "Multibanco (Pagamento de Serviços)", using the Ifthen Software gateway.
- * Version: 1.0
+ * Version: 1.0.1
  * Author: Webdados
  * Author URI: http://www.webdados.pt
  * Text Domain: multibanco_ifthen_for_woocommerce
@@ -38,8 +38,16 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 					global $woocommerce;
 
 					$this->id = 'multibanco_ifthen_for_woocommerce';
-					$this->version = '1.0';
+
+					//Check version and upgrade
+
+					// Logs
+					$this->debug = ($this->get_option('debug')=='yes' ? true : false);
+					if ($this->debug) $this->log = $woocommerce->logger();
+					
+					$this->version = '1.0.1';
 					$this->upgrade();
+
 	            	load_plugin_textdomain($this->id, false, dirname(plugin_basename(__FILE__)) . '/lang/');
 	            	$this->icon = WP_PLUGIN_URL."/".plugin_basename( dirname(__FILE__)) . '/images/icon.png';
 	            	$this->has_fields = false;
@@ -60,10 +68,6 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 					$this->ent = $this->get_option('ent');
 					$this->subent = $this->get_option('subent');
 					$this->only_portugal = $this->get_option('only_portugal');
-					$this->debug = ($this->get_option('debug')=='yes' ? true : false);
-
-					// Logs
-					if ($this->debug) $this->log = $woocommerce->logger();
 			 
 					// Actions and filters
 					add_action('woocommerce_update_options_payment_gateways_'.$this->id, array(&$this, 'process_admin_options'));
@@ -83,7 +87,18 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 				 * Upgrades (if needed)
 				 */
 				function upgrade() {
-					//Meh... no changes needed so far
+					if ($this->get_option('version')<$this->version) {
+						//Upgrade
+						if ($this->debug) $this->log->add($this->id, 'Upgrade to '.$this->version.' started');
+						if ($this->version=='1.0.1') {
+							//Only change is to set the version on the database. It's done below
+						}
+						//Upgrade on the database - Risky?
+						$temp=get_option('woocommerce_multibanco_ifthen_for_woocommerce_settings','');
+						$temp['version']=$this->version;
+						update_option('woocommerce_multibanco_ifthen_for_woocommerce_settings', $temp);
+						if ($this->debug) $this->log->add($this->id, 'Upgrade to '.$this->version.' finished');
+					}
 				}
 
 				/**
@@ -154,7 +169,7 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 				public function admin_options() {
 					global $woocommerce;
 					?>
-					<h3><?php echo $this->method_title; ?></h3>
+					<h3><?php echo $this->method_title; ?> <span style="font-size: 75%;">v.<?php echo $this->version; ?></span></h3>
 					<p><b><?php _e('In order to use this plugin you <u>must</u>:', $this->id); ?></b></p>
 					<ul>
 						<li>&bull; <?php printf( __('Set WooCommerce currency to <b>Euros (&euro;)</b> %1$s', $this->id), '<a href="admin.php?page=woocommerce_settings&tab=general">&gt;&gt;</a>.'); ?></li>
@@ -237,19 +252,19 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 							$ref = $this->get_ref($order->id);
 							if (is_array($ref)) { ?>
 							<tr>
-								<td><? _e('Entity', $this->id); ?>:</td>
+								<td><?php _e('Entity', $this->id); ?>:</td>
 								<td><?php echo $ref['ent']; ?></td>
 							</tr>
 							<tr>
-								<td><? _e('Reference', $this->id); ?>:</td>
+								<td><?php _e('Reference', $this->id); ?>:</td>
 								<td><?php echo chunk_split($ref['ref'], 3, ' '); ?></td>
 							</tr>
 							<tr>
-								<td><? _e('Value', $this->id); ?>:</td>
+								<td><?php _e('Value', $this->id); ?>:</td>
 								<td><?php echo $order->order_total; ?> &euro;</td>
 							</tr>
 							<tr>
-								<td colspan="2" style="font-size: small;"><? _e('The receipt issued by the ATM machine is a proof of payment. Keep it.', $this->id); ?></td>
+								<td colspan="2" style="font-size: small;"><?php _e('The receipt issued by the ATM machine is a proof of payment. Keep it.', $this->id); ?></td>
 							</tr>
 						<?php } else { ?>
 							<tr>
@@ -282,19 +297,19 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 									$ref = $this->get_ref($order->id);
 									if (is_array($ref)) { ?>
 									<tr>
-										<td style="border: 1px solid #1465AA; color: #000000;"><? _e('Entity', $this->id); ?>:</td>
+										<td style="border: 1px solid #1465AA; color: #000000;"><?php _e('Entity', $this->id); ?>:</td>
 										<td style="border: 1px solid #1465AA; color: #000000;"><?php echo $ref['ent']; ?></td>
 									</tr>
 									<tr>
-										<td style="border: 1px solid #1465AA; color: #000000;"><? _e('Reference', $this->id); ?>:</td>
+										<td style="border: 1px solid #1465AA; color: #000000;"><?php _e('Reference', $this->id); ?>:</td>
 										<td style="border: 1px solid #1465AA; color: #000000;"><?php echo chunk_split($ref['ref'], 3, ' '); ?></td>
 									</tr>
 									<tr>
-										<td style="border: 1px solid #1465AA; color: #000000;"><? _e('Value', $this->id); ?>:</td>
+										<td style="border: 1px solid #1465AA; color: #000000;"><?php _e('Value', $this->id); ?>:</td>
 										<td style="border: 1px solid #1465AA; color: #000000;"><?php echo $order->order_total; ?> &euro;</td>
 									</tr>
 									<tr>
-										<td style="font-size: x-small; border: 1px solid #1465AA; border-bottom-right-radius: 4px !important; border-bottom-left-radius: 4px !important; color: #000000;" colspan="2"><? _e('The receipt issued by the ATM machine is a proof of payment. Keep it.', $this->id); ?></td>
+										<td style="font-size: x-small; border: 1px solid #1465AA; border-bottom-right-radius: 4px !important; border-bottom-left-radius: 4px !important; color: #000000;" colspan="2"><?php _e('The receipt issued by the ATM machine is a proof of payment. Keep it.', $this->id); ?></td>
 									</tr>
 								<?php } else { ?>
 									<tr>
