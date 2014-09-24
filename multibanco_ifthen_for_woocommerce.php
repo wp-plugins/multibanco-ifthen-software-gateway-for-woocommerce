@@ -1,9 +1,9 @@
 <?php
 /**
- * Plugin Name: Multibanco (Ifthen Software gateway) for WooCommerce
+ * Plugin Name: Multibanco (IfthenPay gateway) for WooCommerce
  * Plugin URI: http://www.webdados.pt/produtos-e-servicos/internet/desenvolvimento-wordpress/multibanco-ifthen-software-gateway-woocommerce-wordpress/
- * Description: This plugin adds the hability of Portuguese costumers to pay WooCommerce orders with "Multibanco (Pagamento de Serviços)", using the Ifthen Software gateway.
- * Version: 1.0.1
+ * Description: This plugin adds the hability of Portuguese costumers to pay WooCommerce orders with "Multibanco (Pagamento de Serviços)", using the IfthenPay gateway.
+ * Version: 1.1
  * Author: Webdados
  * Author URI: http://www.webdados.pt
  * Text Domain: multibanco_ifthen_for_woocommerce
@@ -45,13 +45,14 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 					$this->debug = ($this->get_option('debug')=='yes' ? true : false);
 					if ($this->debug) $this->log = $woocommerce->logger();
 					
-					$this->version = '1.0.1';
+					$this->version = '1.1';
 					$this->upgrade();
 
-	            	load_plugin_textdomain($this->id, false, dirname(plugin_basename(__FILE__)) . '/lang/');
-	            	$this->icon = WP_PLUGIN_URL."/".plugin_basename( dirname(__FILE__)) . '/images/icon.png';
+	            	load_plugin_textdomain('multibanco_ifthen_for_woocommerce', false, dirname(plugin_basename(__FILE__)) . '/lang/');
+	            	//$this->icon = WP_PLUGIN_URL."/".plugin_basename( dirname(__FILE__)) . '/images/icon.png';
+	            	$this->icon = plugins_url('images/icon.png', __FILE__);
 	            	$this->has_fields = false;
-	            	$this->method_title = __('Pagamento de Serviços no Multibanco (Ifthen)', $this->id);
+	            	$this->method_title = __('Pagamento de Serviços no Multibanco (Ifthen)', 'multibanco_ifthen_for_woocommerce');
 					$this->secret_key = $this->get_option('secret_key');
 					if (trim($this->secret_key)=='') {
 						$this->secret_key=md5(home_url().time().rand(0,999));
@@ -117,43 +118,43 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 						'enabled' => array(
 										'title' => __('Enable/Disable', 'woocommerce'), 
 										'type' => 'checkbox', 
-										'label' => __( 'Enable "Pagamento de Serviços no Multibanco" (using Ifthen Software)', $this->id), 
+										'label' => __( 'Enable "Pagamento de Serviços no Multibanco" (using IfthenPay)', 'multibanco_ifthen_for_woocommerce'), 
 										'default' => 'no'
 									),
 						'only_portugal' => array(
-										'title' => __('Only for Portuguese customers?', $this->id), 
+										'title' => __('Only for Portuguese customers?', 'multibanco_ifthen_for_woocommerce'), 
 										'type' => 'checkbox', 
-										'label' => __( 'Enable only for customers whose address is in Portugal', $this->id), 
+										'label' => __( 'Enable only for customers whose address is in Portugal', 'multibanco_ifthen_for_woocommerce'), 
 										'default' => 'no'
 									),
 						'title' => array(
 										'title' => __('Title', 'woocommerce' ), 
 										'type' => 'text', 
 										'description' => __('This controls the title which the user sees during checkout.', 'woocommerce'), 
-										'default' => __('Pagamento de Serviços no Multibanco', $this->id)
+										'default' => __('Pagamento de Serviços no Multibanco', 'multibanco_ifthen_for_woocommerce')
 									),
 						'description' => array(
 										'title' => __('Description', 'woocommerce' ), 
 										'type' => 'textarea',
 										'description' => __('This controls the description which the user sees during checkout.', 'woocommerce' ), 
-										'default' => __('Easy and simple payment using "Pagamento de Serviços" at any "Multibanco" ATM terminal or your Home Banking service. (Only available to customers of Portuguese banks)', $this->id)    
+										'default' => __('Easy and simple payment using "Pagamento de Serviços" at any "Multibanco" ATM terminal or your Home Banking service. (Only available to customers of Portuguese banks)', 'multibanco_ifthen_for_woocommerce')    
 									),
 						'ent' => array(
-										'title' => __('Entity', $this->id), 
+										'title' => __('Entity', 'multibanco_ifthen_for_woocommerce'), 
 										'type' => 'number',
-										'description' => __( 'Entity provided by Ifthen Software when signing the contract. (E.g.: 10559, 11202, 11473, 11604)', $this->id), 
+										'description' => __( 'Entity provided by IfthenPay when signing the contract. (E.g.: 10559, 11202, 11473, 11604)', 'multibanco_ifthen_for_woocommerce'), 
 										'default' => ''    
 									),
 						'subent' => array(
-										'title' => __('Subentity', $this->id), 
+										'title' => __('Subentity', 'multibanco_ifthen_for_woocommerce'), 
 										'type' => 'number', 
-										'description' => __('Subentity provided by Ifthen Software when signing the contract. (E.g.: 999)', $this->id), 
+										'description' => __('Subentity provided by IfthenPay when signing the contract. (E.g.: 999)', 'multibanco_ifthen_for_woocommerce'), 
 										'default' => ''   
 									),
 						'secret_key' => array(
-										'title' => __('Anti-phishing key', $this->id), 
+										'title' => __('Anti-phishing key', 'multibanco_ifthen_for_woocommerce'), 
 										'type' => 'hidden', 
-										'description' => '<b id="woocommerce_multibanco_ifthen_for_woocommerce_secret_key_label">'.$this->get_option('secret_key').'</b><br/>'.__('To ensure callback security, generated by the system and that must be provided to Ifthen Software when asking for the callback activation.', $this->id), 
+										'description' => '<b id="woocommerce_multibanco_ifthen_for_woocommerce_secret_key_label">'.$this->get_option('secret_key').'</b><br/>'.__('To ensure callback security, generated by the system and that must be provided to IfthenPay when asking for the callback activation.', 'multibanco_ifthen_for_woocommerce'), 
 										'default' => $this->secret_key 
 									),
 						'debug' => array(
@@ -161,7 +162,7 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 										'type' => 'checkbox',
 										'label' => __( 'Enable logging', 'woocommerce' ),
 										'default' => 'no',
-										'description' => sprintf( __( 'Log plugin events, such as callback requests, inside <code>woocommerce/logs/multibanco_ifthen_for_woocommerce-%s.txt</code>', $this->id ), sanitize_file_name( wp_hash( $this->id ) ) ),
+										'description' => sprintf( __( 'Log plugin events, such as callback requests, inside <code>woocommerce/logs/multibanco_ifthen_for_woocommerce-%s.txt</code>', 'multibanco_ifthen_for_woocommerce' ), sanitize_file_name( wp_hash( $this->id ) ) ),
 									)
 						);
 				
@@ -170,14 +171,14 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 					global $woocommerce;
 					?>
 					<h3><?php echo $this->method_title; ?> <span style="font-size: 75%;">v.<?php echo $this->version; ?></span></h3>
-					<p><b><?php _e('In order to use this plugin you <u>must</u>:', $this->id); ?></b></p>
-					<ul>
-						<li>&bull; <?php printf( __('Set WooCommerce currency to <b>Euros (&euro;)</b> %1$s', $this->id), '<a href="admin.php?page=woocommerce_settings&tab=general">&gt;&gt;</a>.'); ?></li>
-						<li>&bull; <?php printf( __('Sign a contract with %1$s. To get more informations on this service go to %2$s.', $this->id), '<b><a href="https://www.ifthensoftware.com" target="_blank">Ifthen Software</a></b>', '<a href="https://www.ifthensoftware.com/ProdutoX.aspx?ProdID=5" target="_blank">https://www.ifthensoftware.com/ProdutoX.aspx?ProdID=5</a>'); ?></li>
-						<li>&bull; <?php printf( __('Ask Ifthen Software to activate "Callback" on your account using this exact URL: %1$s and this Anti-phishing key: %2$s', $this->id), '<br/><code><b>'.$this->notify_url.'</b></code><br/>', '<br/><code><b>'.$this->secret_key.'</b></code>'); ?></li>
-						<li>&bull; <?php _e('Fill in all details (entity and subentity) provided by <b>Ifthen Software</b> on the fields bellow.', $this->id); ?>
+					<p><b><?php _e('In order to use this plugin you <u>must</u>:', 'multibanco_ifthen_for_woocommerce'); ?></b></p>
+					<ul class="wc_ifthen_list">
+						<li><?php printf( __('Set WooCommerce currency to <b>Euros (&euro;)</b> %1$s', 'multibanco_ifthen_for_woocommerce'), '<a href="admin.php?page=woocommerce_settings&tab=general">&gt;&gt;</a>.'); ?></li>
+						<li><?php printf( __('Sign a contract with %1$s. To get more informations on this service go to %2$s.', 'multibanco_ifthen_for_woocommerce'), '<b><a href="https://www.ifthensoftware.com" target="_blank">IfthenPay</a></b>', '<a href="https://www.ifthensoftware.com/ProdutoX.aspx?ProdID=5" target="_blank">https://www.ifthensoftware.com/ProdutoX.aspx?ProdID=5</a>'); ?></li>
+						<li><?php printf( __('Ask IfthenPay to activate "Callback" on your account using this exact URL: %1$s and this Anti-phishing key: %2$s', 'multibanco_ifthen_for_woocommerce'), '<br/><code><b>'.$this->notify_url.'</b></code><br/>', '<br/><code><b>'.$this->secret_key.'</b></code>'); ?></li>
+						<li><?php _e('Fill in all details (entity and subentity) provided by <b>IfthenPay</b> on the fields bellow.', 'multibanco_ifthen_for_woocommerce'); ?>
 					</ul>
-					<p><?php printf( __('Please be aware that this is not an official plugin by <b>Ifthen Software</b>. Do not ask them for support on using it. Please refer to %1$s for technical support.', $this->id), '<b><a href="http://www.webdados.pt/produtos-e-servicos/internet/desenvolvimento-wordpress/multibanco-ifthen-software-gateway-woocommerce-wordpress/" target="_blank">Webdados</a></b>'); ?></p>
+					<p><?php printf( __('Please be aware that this is not an official plugin by <b>IfthenPay</b>. Do not ask them for support on using it. Please refer to %1$s for technical support.', 'multibanco_ifthen_for_woocommerce'), '<b><a href="http://www.webdados.pt/produtos-e-servicos/internet/desenvolvimento-wordpress/multibanco-ifthen-software-gateway-woocommerce-wordpress/" target="_blank">Webdados</a></b>'); ?></p>
 					<hr/>
 					<script type="text/javascript">
 					jQuery(document).ready(function(){
@@ -194,11 +195,20 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 						$this->generate_settings_html();
 					} else {
 						?>
-						<p><b><?php _e('ERROR!', $this->id); ?> <?php printf( __('Set WooCommerce currency to <b>Euros (&euro;)</b> %1$s', $this->id), '<a href="admin.php?page=woocommerce_settings&tab=general">'._('here', $this->id).'</a>.'); ?></b></p>
+						<p><b><?php _e('ERROR!', 'multibanco_ifthen_for_woocommerce'); ?> <?php printf( __('Set WooCommerce currency to <b>Euros (&euro;)</b> %1$s', 'multibanco_ifthen_for_woocommerce'), '<a href="admin.php?page=woocommerce_settings&tab=general">'._('here', 'multibanco_ifthen_for_woocommerce').'</a>.'); ?></b></p>
 						<?php
 					}
 					?>
 					</table>
+					<style type="text/css">
+						.wc_ifthen_list {
+							list-style-type: disc;
+							list-style-position: inside;
+						}
+						.wc_ifthen_list li {
+							margin-left: 1.5em;
+						}
+					</style>
 					<?php
 				}
 
@@ -206,7 +216,7 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 				 * Thank you page
 				 */
 				function order_add_meta_box() {
-					add_meta_box($this->id, __('Multibanco payment details', $this->id), array(&$this, 'order_meta_box_html'), 'shop_order');
+					add_meta_box($this->id, __('Multibanco payment details', 'multibanco_ifthen_for_woocommerce'), array(&$this, 'order_meta_box_html'), 'shop_order');
 				}
 				function order_meta_box_html($post) {
 					print_r($post);
@@ -243,32 +253,32 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 					<table class="multibanco_ifthen_for_woocommerce_table" cellpadding="0" cellspacing="0">
 						<tr>
 							<th colspan="2">
-								<?php _e('Payment instructions', $this->id); ?>
+								<?php _e('Payment instructions', 'multibanco_ifthen_for_woocommerce'); ?>
 								<br/>
-								<img src="<?php echo WP_PLUGIN_URL."/".plugin_basename( dirname(__FILE__)); ?>/images/banner.png" alt="<?php echo esc_attr($this->title); ?>" title="<?php echo esc_attr($this->title); ?>"/>
+								<img src="<?php echo plugins_url('images/banner.png', __FILE__); ?>" alt="<?php echo esc_attr($this->title); ?>" title="<?php echo esc_attr($this->title); ?>"/>
 							</th>
 						</tr>
 						<?php
 							$ref = $this->get_ref($order->id);
 							if (is_array($ref)) { ?>
 							<tr>
-								<td><?php _e('Entity', $this->id); ?>:</td>
+								<td><?php _e('Entity', 'multibanco_ifthen_for_woocommerce'); ?>:</td>
 								<td><?php echo $ref['ent']; ?></td>
 							</tr>
 							<tr>
-								<td><?php _e('Reference', $this->id); ?>:</td>
+								<td><?php _e('Reference', 'multibanco_ifthen_for_woocommerce'); ?>:</td>
 								<td><?php echo chunk_split($ref['ref'], 3, ' '); ?></td>
 							</tr>
 							<tr>
-								<td><?php _e('Value', $this->id); ?>:</td>
+								<td><?php _e('Value', 'multibanco_ifthen_for_woocommerce'); ?>:</td>
 								<td><?php echo $order->order_total; ?> &euro;</td>
 							</tr>
 							<tr>
-								<td colspan="2" style="font-size: small;"><?php _e('The receipt issued by the ATM machine is a proof of payment. Keep it.', $this->id); ?></td>
+								<td colspan="2" style="font-size: small;"><?php _e('The receipt issued by the ATM machine is a proof of payment. Keep it.', 'multibanco_ifthen_for_woocommerce'); ?></td>
 							</tr>
 						<?php } else { ?>
 							<tr>
-								<td><b><?php _e('Error', $this->id); ?>:</b></td>
+								<td><b><?php _e('Error', 'multibanco_ifthen_for_woocommerce'); ?>:</b></td>
 								<td><?php echo $ref; ?></td>
 							</tr>
 						<?php } ?>
@@ -284,36 +294,37 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 					if ( $order->payment_method !== $this->id) return;
 					switch ($order->status) {
 						case 'on-hold':
+						case 'pending':
 							?>
 							<table cellpadding="10" cellspacing="0" align="center" border="0" style="margin: auto; margin-top: 10px; margin-bottom: 10px; border-collapse: collapse; border: 1px solid #1465AA; border-radius: 4px !important; background-color: #FFFFFF;">
 								<tr>
 									<td style="border: 1px solid #1465AA; border-top-right-radius: 4px !important; border-top-left-radius: 4px !important; text-align: center; color: #000000; font-weight: bold;" colspan="2">
-										<?php _e('Payment instructions', $this->id); ?>
+										<?php _e('Payment instructions', 'multibanco_ifthen_for_woocommerce'); ?>
 										<br/>
-										<img src="<?php echo WP_PLUGIN_URL."/".plugin_basename( dirname(__FILE__)); ?>/images/banner.png" alt="<?php echo esc_attr($this->title); ?>" title="<?php echo esc_attr($this->title); ?>" style="margin-top: 10px;"/>
+										<img src="<?php echo plugins_url('images/banner.png', __FILE__); ?>" alt="<?php echo esc_attr($this->title); ?>" title="<?php echo esc_attr($this->title); ?>" style="margin-top: 10px;"/>
 									</td>
 								</tr>
 								<?php
 									$ref = $this->get_ref($order->id);
 									if (is_array($ref)) { ?>
 									<tr>
-										<td style="border: 1px solid #1465AA; color: #000000;"><?php _e('Entity', $this->id); ?>:</td>
+										<td style="border: 1px solid #1465AA; color: #000000;"><?php _e('Entity', 'multibanco_ifthen_for_woocommerce'); ?>:</td>
 										<td style="border: 1px solid #1465AA; color: #000000;"><?php echo $ref['ent']; ?></td>
 									</tr>
 									<tr>
-										<td style="border: 1px solid #1465AA; color: #000000;"><?php _e('Reference', $this->id); ?>:</td>
+										<td style="border: 1px solid #1465AA; color: #000000;"><?php _e('Reference', 'multibanco_ifthen_for_woocommerce'); ?>:</td>
 										<td style="border: 1px solid #1465AA; color: #000000;"><?php echo chunk_split($ref['ref'], 3, ' '); ?></td>
 									</tr>
 									<tr>
-										<td style="border: 1px solid #1465AA; color: #000000;"><?php _e('Value', $this->id); ?>:</td>
+										<td style="border: 1px solid #1465AA; color: #000000;"><?php _e('Value', 'multibanco_ifthen_for_woocommerce'); ?>:</td>
 										<td style="border: 1px solid #1465AA; color: #000000;"><?php echo $order->order_total; ?> &euro;</td>
 									</tr>
 									<tr>
-										<td style="font-size: x-small; border: 1px solid #1465AA; border-bottom-right-radius: 4px !important; border-bottom-left-radius: 4px !important; color: #000000;" colspan="2"><?php _e('The receipt issued by the ATM machine is a proof of payment. Keep it.', $this->id); ?></td>
+										<td style="font-size: x-small; border: 1px solid #1465AA; border-bottom-right-radius: 4px !important; border-bottom-left-radius: 4px !important; color: #000000;" colspan="2"><?php _e('The receipt issued by the ATM machine is a proof of payment. Keep it.', 'multibanco_ifthen_for_woocommerce'); ?></td>
 									</tr>
 								<?php } else { ?>
 									<tr>
-										<td><b><?php _e('Error', $this->id); ?>:</b></td>
+										<td><b><?php _e('Error', 'multibanco_ifthen_for_woocommerce'); ?>:</b></td>
 										<td><?php echo $ref; ?></td>
 									</tr>
 								<?php } ?>
@@ -322,7 +333,7 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 							break;
 						case 'processing':
 							?>
-							<p><b><?php _e('Multibanco payment received.', $this->id); ?></b> <?php _e('We will now process your order.', $this->id); ?></p>
+							<p><b><?php _e('Multibanco payment received.', 'multibanco_ifthen_for_woocommerce'); ?></b> <?php _e('We will now process your order.', 'multibanco_ifthen_for_woocommerce'); ?></p>
 							<?php
 							break;
 						default:
@@ -338,7 +349,7 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 					global $woocommerce;
 					$order=new WC_Order($order_id);
 					// Mark as on-hold
-					$order->update_status('on-hold', __('Awaiting Multibanco payment.', $this->id));
+					$order->update_status('on-hold', __('Awaiting Multibanco payment.', 'multibanco_ifthen_for_woocommerce'));
 					// Reduce stock levels
 					//$order->reduce_order_stock();  //No we don't!
 					// Remove cart
@@ -384,11 +395,11 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 						} else {
 							//Value ok?
 							if ($order->order_total<1){
-								return __('It\'s not possible to use Multibanco to pay values under 1&euro;.', $this->id);
+								return __('It\'s not possible to use Multibanco to pay values under 1&euro;.', 'multibanco_ifthen_for_woocommerce');
 						 	} else {
 						 		//Value ok? (again)
 								if ($order->order_total>=1000000){
-									return __('It\'s not possible to use Multibanco to pay values above 999999&euro;.', $this->id);
+									return __('It\'s not possible to use Multibanco to pay values above 999999&euro;.', 'multibanco_ifthen_for_woocommerce');
 								} else {
 									//Create a new reference
 									if(trim(strlen($this->ent))==5 && trim(strlen($this->subent))<=3 && intval($this->ent)>0 && intval($this->subent)>0 && trim($this->secret_key)!=''){
@@ -403,13 +414,13 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 											'ref' => $ref
 										);
 									} else {
-										return __('Configuration error. This payment method is disabled because required information was not set.', $this->id);
+										return __('Configuration error. This payment method is disabled because required information was not set.', 'multibanco_ifthen_for_woocommerce');
 									}
 								}
 							}
 						}
 					} else {
-						return __('Configuration error. This store currency is not Euros (&euro;).', $this->id);
+						return __('Configuration error. This store currency is not Euros (&euro;).', 'multibanco_ifthen_for_woocommerce');
 					}
 				}
 				function create_ref($ent, $subent, $seed, $total) {
@@ -494,7 +505,7 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 									array(
 									'taxonomy' => 'shop_order_status',
 									'field' => 'slug',
-									'terms' => array('on-hold')
+									'terms' => array('on-hold', 'pending')
 									)
 								),
 								'meta_query' => array(
@@ -518,9 +529,9 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 									endwhile;
 									if ($val==floatval($order->order_total)) {
 										//We must first change the order status to "pending" and then to "processing" or no email will be sent to the client
-										$order->update_status('pending', __('Temporary status. Used to force an email on the next order status change.', $this->id));
-										$order->reduce_order_stock(); //Now we reduce the sotck
-										$order->update_status('processing', __('Multibanco payment received.', $this->id)); //Paid
+										if (!class_exists('WC_Order_Status_Emails_for_WooCommerce')) if ($order->status!='pending') $order->update_status('pending', __('Temporary status. Used to force an email on the next order status change.', 'multibanco_ifthen_for_woocommerce'));
+										$order->reduce_order_stock(); //Now we reduce the stock
+										$order->update_status('processing', __('Multibanco payment received.', 'multibanco_ifthen_for_woocommerce')); //Paid
 										header('HTTP/1.1 200 OK');
 										if ($this->debug) $this->log->add($this->id, '-- Multibanco payment received');
 										echo 'OK - Multibanco payment received';
