@@ -3,7 +3,7 @@
  * Plugin Name: Multibanco (IfthenPay gateway) for WooCommerce
  * Plugin URI: http://www.webdados.pt/produtos-e-servicos/internet/desenvolvimento-wordpress/multibanco-ifthen-software-gateway-woocommerce-wordpress/
  * Description: This plugin adds the hability of Portuguese costumers to pay WooCommerce orders with "Multibanco (Pagamento de Serviços)", using the IfthenPay gateway.
- * Version: 1.1
+ * Version: 1.2
  * Author: Webdados
  * Author URI: http://www.webdados.pt
  * Text Domain: multibanco_ifthen_for_woocommerce
@@ -44,8 +44,9 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 					// Logs
 					$this->debug = ($this->get_option('debug')=='yes' ? true : false);
 					if ($this->debug) $this->log = $woocommerce->logger();
+					$this->debug_email = $this->get_option('debug_email');
 					
-					$this->version = '1.1';
+					$this->version = '1.2';
 					$this->upgrade();
 
 	            	load_plugin_textdomain('multibanco_ifthen_for_woocommerce', false, dirname(plugin_basename(__FILE__)) . '/lang/');
@@ -163,6 +164,13 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 										'label' => __( 'Enable logging', 'woocommerce' ),
 										'default' => 'no',
 										'description' => sprintf( __( 'Log plugin events, such as callback requests, inside <code>woocommerce/logs/multibanco_ifthen_for_woocommerce-%s.txt</code>', 'multibanco_ifthen_for_woocommerce' ), sanitize_file_name( wp_hash( $this->id ) ) ),
+									),
+						'debug_email' => array(
+										'title' => __( 'Debug to email', 'multibanco_ifthen_for_woocommerce' ),
+										'type' => 'email',
+										'label' => __( 'Enable email logging', 'multibanco_ifthen_for_woocommerce' ),
+										'default' => '',
+										'description' => __( 'Send plugin events to this email address, such as callback requests.', 'multibanco_ifthen_for_woocommerce' ),
 									)
 						);
 				
@@ -174,7 +182,7 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 					<p><b><?php _e('In order to use this plugin you <u>must</u>:', 'multibanco_ifthen_for_woocommerce'); ?></b></p>
 					<ul class="wc_ifthen_list">
 						<li><?php printf( __('Set WooCommerce currency to <b>Euros (&euro;)</b> %1$s', 'multibanco_ifthen_for_woocommerce'), '<a href="admin.php?page=woocommerce_settings&tab=general">&gt;&gt;</a>.'); ?></li>
-						<li><?php printf( __('Sign a contract with %1$s. To get more informations on this service go to %2$s.', 'multibanco_ifthen_for_woocommerce'), '<b><a href="https://www.ifthensoftware.com" target="_blank">IfthenPay</a></b>', '<a href="https://www.ifthensoftware.com/ProdutoX.aspx?ProdID=5" target="_blank">https://www.ifthensoftware.com/ProdutoX.aspx?ProdID=5</a>'); ?></li>
+						<li><?php printf( __('Sign a contract with %1$s. To get more informations on this service go to %2$s.', 'multibanco_ifthen_for_woocommerce'), '<b><a href="http://www.ifthenpay.com" target="_blank">IfthenPay</a></b>', '<a href="https://www.ifthensoftware.com/ProdutoX.aspx?ProdID=5" target="_blank">https://www.ifthensoftware.com/ProdutoX.aspx?ProdID=5</a>'); ?></li>
 						<li><?php printf( __('Ask IfthenPay to activate "Callback" on your account using this exact URL: %1$s and this Anti-phishing key: %2$s', 'multibanco_ifthen_for_woocommerce'), '<br/><code><b>'.$this->notify_url.'</b></code><br/>', '<br/><code><b>'.$this->secret_key.'</b></code>'); ?></li>
 						<li><?php _e('Fill in all details (entity and subentity) provided by <b>IfthenPay</b> on the fields bellow.', 'multibanco_ifthen_for_woocommerce'); ?>
 					</ul>
@@ -470,8 +478,8 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 				 * @return void
 				 */
 				function callback() {
-					//We must 1st check the situation and then process it and send email to the store owner in case of error.
 					@ob_clean();
+					//We must 1st check the situation and then process it and send email to the store owner in case of error.
 					if (isset($_GET['chave'])
 						&&
 						isset($_GET['entidade'])
@@ -480,7 +488,7 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 						&&
 						isset($_GET['valor'])
 					) {
-						//Let's process it - WE MUST ADD LOGS (see paypal)
+						//Let's process it
 						if ($this->debug) $this->log->add($this->id, '- Callback ('.$_SERVER['REQUEST_URI'].') with all arguments from '.$_SERVER['REMOTE_ADDR']);
 						$ref=trim(str_replace(' ', '', $_GET['referencia']));
 						$ent=trim($_GET['entidade']);
@@ -521,7 +529,7 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 									)
 								)
 							);
-							$the_query = new WP_Query( $args );
+							$the_query = new WP_Query($args);
 							if ($the_query->have_posts()) {
 								if ($the_query->post_count==1) {
 									while ( $the_query->have_posts() ) : $the_query->the_post();
@@ -529,35 +537,43 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 									endwhile;
 									if ($val==floatval($order->order_total)) {
 										//We must first change the order status to "pending" and then to "processing" or no email will be sent to the client
-										if (!class_exists('WC_Order_Status_Emails_for_WooCommerce')) if ($order->status!='pending') $order->update_status('pending', __('Temporary status. Used to force an email on the next order status change.', 'multibanco_ifthen_for_woocommerce'));
+										include_once(ABSPATH.'wp-admin/includes/plugin.php' );
+										if (!is_plugin_active('order-status-emails-for-woocommerce/order-status-emails-for-woocommerce.php')) //Only if this plugin is not active
+											if ($order->status!='pending') $order->update_status('pending', __('Temporary status. Used to force an email on the next order status change.', 'multibanco_ifthen_for_woocommerce'));
 										$order->reduce_order_stock(); //Now we reduce the stock
 										$order->update_status('processing', __('Multibanco payment received.', 'multibanco_ifthen_for_woocommerce')); //Paid
 										header('HTTP/1.1 200 OK');
 										if ($this->debug) $this->log->add($this->id, '-- Multibanco payment received');
+										if (trim($this->debug_email)!='') wp_mail(trim($this->debug_email), $this->id.' - Multibanco payment received', 'Callback ( '.$_SERVER['HTTP_HOST'].' '.$_SERVER['REQUEST_URI'].' ) from '.$_SERVER['REMOTE_ADDR'].' - Multibanco payment received');
 										echo 'OK - Multibanco payment received';
 									} else {
 										header('HTTP/1.1 200 OK');
 										if ($this->debug) $this->log->add($this->id, '-- Error: The value does not match');
+										if (trim($this->debug_email)!='') wp_mail(trim($this->debug_email), $this->id.' - Error: The value does not match', 'Callback ( '.$_SERVER['HTTP_HOST'].' '.$_SERVER['REQUEST_URI'].' ) from '.$_SERVER['REMOTE_ADDR'].' - The value does not match');
 										echo 'Error: The value does not match';
 									}
 								} else {
 									header('HTTP/1.1 200 OK');
 									if ($this->debug) $this->log->add($this->id, '-- Error: More than 1 order found awaiting payment with these details');
+									if (trim($this->debug_email)!='') wp_mail(trim($this->debug_email), $this->id.' - Error: More than 1 order found awaiting payment with these details', 'Callback ( '.$_SERVER['HTTP_HOST'].' '.$_SERVER['REQUEST_URI'].' ) from '.$_SERVER['REMOTE_ADDR'].' - More than 1 order found awaiting payment with these details');
 									echo 'Error: More than 1 order found awaiting payment with these details';
 								}
 							} else {
 								header('HTTP/1.1 200 OK');
 								if ($this->debug) $this->log->add($this->id, '-- Error: No orders found awaiting payment with these details');
+								if (trim($this->debug_email)!='') wp_mail(trim($this->debug_email), $this->id.' - Error: No orders found awaiting payment with these details', 'Callback ( '.$_SERVER['HTTP_HOST'].' '.$_SERVER['REQUEST_URI'].' ) from '.$_SERVER['REMOTE_ADDR'].' - No orders found awaiting payment with these details');
 								echo 'Error: No orders found awaiting payment with these details';
 							}
 						} else {
 							//header("Status: 400");
 							if ($this->debug) $this->log->add($this->id, '-- Argument errors');
+							if (trim($this->debug_email)!='') wp_mail(trim($this->debug_email), $this->id.' - Error: Callback with argument errors', 'Callback ( '.$_SERVER['HTTP_HOST'].' '.$_SERVER['REQUEST_URI'].' ) with argument errors from '.$_SERVER['REMOTE_ADDR']);
 							wp_die('Argument errors'); //Sends 500
 						}
 					} else {
 						//header("Status: 400");
 						if ($this->debug) $this->log->add($this->id, '- Callback ('.$_SERVER['REQUEST_URI'].') with missing arguments from '.$_SERVER['REMOTE_ADDR']);
+						if (trim($this->debug_email)!='') wp_mail(trim($this->debug_email), $this->id.' - Error: Callback with missing arguments', 'Callback ( '.$_SERVER['HTTP_HOST'].' '.$_SERVER['REQUEST_URI'].' ) with missing arguments from '.$_SERVER['REMOTE_ADDR']);
 						wp_die('Error: Something is missing...'); //Sends 500
 					}
 				}
