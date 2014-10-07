@@ -4,10 +4,10 @@ Tags: woocommerce, payment, multibanco, ecommerce, e-commerce, ifthen, ifthen so
 Author URI: http://www.webdados.pt
 Plugin URI: http://www.webdados.pt/produtos-e-servicos/internet/desenvolvimento-wordpress/multibanco-ifthen-software-gateway-woocommerce-wordpress/
 Requires at least: 3.8
-Tested up to: 3.8.1
-Stable tag: 1.2
+Tested up to: 4.0
+Stable tag: 1.3
 
-This plugin adds the hability of Portuguese costumers to pay WooCommerce orders with "Multibanco (Pag. Serviços)", using the IfthenPay gateway.
+This plugin allows Portuguese costumers to pay WooCommerce orders with Multibanco (Pag. Serviços), using the IfthenPay gateway.
 
 == Description ==
 
@@ -37,6 +37,9 @@ This is NOT an official plugin by Ifthen, yet it has been tested with them and i
 The plugin is new, so no question is frequent. Ask us something ;-)
 
 == Changelog ==
+
+= 1.3 =
+* It's now possible to enable this payment method only for orders above a specific amount
 
 = 1.2 =
 * Added the hability to receive callback logs on a email address

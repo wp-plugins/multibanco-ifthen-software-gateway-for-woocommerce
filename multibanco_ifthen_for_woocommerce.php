@@ -2,8 +2,8 @@
 /**
  * Plugin Name: Multibanco (IfthenPay gateway) for WooCommerce
  * Plugin URI: http://www.webdados.pt/produtos-e-servicos/internet/desenvolvimento-wordpress/multibanco-ifthen-software-gateway-woocommerce-wordpress/
- * Description: This plugin adds the hability of Portuguese costumers to pay WooCommerce orders with "Multibanco (Pagamento de Serviços)", using the IfthenPay gateway.
- * Version: 1.2
+ * Description: This plugin allows Portuguese costumers to pay WooCommerce orders with Multibanco (Pag. Serviços), using the IfthenPay gateway.
+ * Version: 1.3
  * Author: Webdados
  * Author URI: http://www.webdados.pt
  * Text Domain: multibanco_ifthen_for_woocommerce
@@ -46,7 +46,7 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 					if ($this->debug) $this->log = $woocommerce->logger();
 					$this->debug_email = $this->get_option('debug_email');
 					
-					$this->version = '1.2';
+					$this->version = '1.3';
 					$this->upgrade();
 
 	            	load_plugin_textdomain('multibanco_ifthen_for_woocommerce', false, dirname(plugin_basename(__FILE__)) . '/lang/');
@@ -70,11 +70,13 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 					$this->ent = $this->get_option('ent');
 					$this->subent = $this->get_option('subent');
 					$this->only_portugal = $this->get_option('only_portugal');
+					$this->only_above = $this->get_option('only_above');
 			 
 					// Actions and filters
 					add_action('woocommerce_update_options_payment_gateways_'.$this->id, array(&$this, 'process_admin_options'));
 					add_action('woocommerce_thankyou_'.$this->id, array(&$this, 'thankyou'));
 					add_filter('woocommerce_available_payment_gateways', array(&$this, 'disable_unless_portugal'));
+					add_filter('woocommerce_available_payment_gateways', array(&$this, 'disable_above'));
 					add_action('add_meta_boxes', array(&$this, 'order_add_meta_box'));
 				 
 					// Customer Emails
@@ -126,6 +128,12 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 										'title' => __('Only for Portuguese customers?', 'multibanco_ifthen_for_woocommerce'), 
 										'type' => 'checkbox', 
 										'label' => __( 'Enable only for customers whose address is in Portugal', 'multibanco_ifthen_for_woocommerce'), 
+										'default' => 'no'
+									),
+						'only_above' => array(
+										'title' => __('Only for orders above', 'multibanco_ifthen_for_woocommerce'), 
+										'type' => 'number', 
+										'description' => __( 'Enable only for orders above x &euro;. Leave blank (or zero) to allow for any order value.', 'multibanco_ifthen_for_woocommerce'), 
 										'default' => 'no'
 									),
 						'title' => array(
@@ -378,6 +386,21 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
 					global $woocommerce;
 					if (isset($available_gateways[$this->id])) {
 						if (trim($available_gateways[$this->id]->only_portugal)=='yes' && trim($woocommerce->customer->get_country())!='PT') unset($available_gateways[$this->id]);
+					}
+					return $available_gateways;
+				}
+
+				/**
+				 * Just above certain amounts
+				 */
+				function disable_above($available_gateways) {
+					global $woocommerce;
+					if (isset($available_gateways[$this->id])) {
+						if (floatval($available_gateways[$this->id]->only_above)>0) {
+							if(floatval($available_gateways[$this->id]->only_above)<$woocommerce->cart->total) {
+								unset($available_gateways[$this->id]);
+							}
+						} 
 					}
 					return $available_gateways;
 				}
