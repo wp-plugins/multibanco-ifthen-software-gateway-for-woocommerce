@@ -3,7 +3,7 @@
  * Plugin Name: Multibanco (IfthenPay gateway) for WooCommerce
  * Plugin URI: http://www.webdados.pt/produtos-e-servicos/internet/desenvolvimento-wordpress/multibanco-ifthen-software-gateway-woocommerce-wordpress/
  * Description: This plugin allows Portuguese costumers to pay WooCommerce orders with Multibanco (Pag. Serviços), using the IfthenPay gateway.
- * Version: 1.4
+ * Version: 1.4.1
  * Author: Webdados
  * Author URI: http://www.webdados.pt
  * Text Domain: multibanco_ifthen_for_woocommerce
@@ -16,13 +16,11 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
  * Check if WooCommerce is active
  **/
 // Get active network plugins - "Stolen" from Novalnet Payment Gateway
-if (!function_exists('nn_active_nw_plugins')) {
-	function mbifthen_active_nw_plugins() {
-		if (!is_multisite())
-			return false;
-		$mbifthen_activePlugins = (get_site_option('active_sitewide_plugins')) ? array_keys(get_site_option('active_sitewide_plugins')) : array();
-		return $mbifthen_activePlugins;
-	}
+function mbifthen_active_nw_plugins() {
+	if (!is_multisite())
+		return false;
+	$mbifthen_activePlugins = (get_site_option('active_sitewide_plugins')) ? array_keys(get_site_option('active_sitewide_plugins')) : array();
+	return $mbifthen_activePlugins;
 }
 if (in_array('woocommerce/woocommerce.php', (array) get_option('active_plugins')) || in_array('woocommerce/woocommerce.php', (array) mbifthen_active_nw_plugins())) {
 
@@ -55,7 +53,7 @@ if (in_array('woocommerce/woocommerce.php', (array) get_option('active_plugins')
 					if ($this->debug) $this->log = $woocommerce->logger();
 					$this->debug_email = $this->get_option('debug_email');
 					
-					$this->version = '1.4';
+					$this->version = '1.4.1';
 					$this->upgrade();
 
 	            	load_plugin_textdomain('multibanco_ifthen_for_woocommerce', false, dirname(plugin_basename(__FILE__)) . '/lang/');
