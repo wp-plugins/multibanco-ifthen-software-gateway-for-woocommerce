@@ -3,7 +3,7 @@
  * Plugin Name: Multibanco (IfthenPay gateway) for WooCommerce
  * Plugin URI: http://www.webdados.pt/produtos-e-servicos/internet/desenvolvimento-wordpress/multibanco-ifthen-software-gateway-woocommerce-wordpress/
  * Description: This plugin allows Portuguese costumers to pay WooCommerce orders with Multibanco (Pag. Serviços), using the IfthenPay gateway.
- * Version: 1.4.1
+ * Version: 1.4.2
  * Author: Webdados
  * Author URI: http://www.webdados.pt
  * Text Domain: multibanco_ifthen_for_woocommerce
@@ -53,7 +53,7 @@ if (in_array('woocommerce/woocommerce.php', (array) get_option('active_plugins')
 					if ($this->debug) $this->log = $woocommerce->logger();
 					$this->debug_email = $this->get_option('debug_email');
 					
-					$this->version = '1.4.1';
+					$this->version = '1.4.2';
 					$this->upgrade();
 
 	            	load_plugin_textdomain('multibanco_ifthen_for_woocommerce', false, dirname(plugin_basename(__FILE__)) . '/lang/');
@@ -84,7 +84,6 @@ if (in_array('woocommerce/woocommerce.php', (array) get_option('active_plugins')
 					add_action('woocommerce_thankyou_'.$this->id, array(&$this, 'thankyou'));
 					add_filter('woocommerce_available_payment_gateways', array(&$this, 'disable_unless_portugal'));
 					add_filter('woocommerce_available_payment_gateways', array(&$this, 'disable_above'));
-					add_action('add_meta_boxes', array(&$this, 'order_add_meta_box'));
 				 
 					// Customer Emails
 					add_action('woocommerce_email_before_order_table', array(&$this, 'email_instructions'), 10, 2);
@@ -233,16 +232,6 @@ if (in_array('woocommerce/woocommerce.php', (array) get_option('active_plugins')
 						}
 					</style>
 					<?php
-				}
-
-				/**
-				 * Thank you page
-				 */
-				function order_add_meta_box() {
-					add_meta_box($this->id, __('Multibanco payment details', 'multibanco_ifthen_for_woocommerce'), array(&$this, 'order_meta_box_html'), 'shop_order');
-				}
-				function order_meta_box_html($post) {
-					print_r($post);
 				}
 
 				/**
