@@ -3,7 +3,7 @@
  * Plugin Name: Multibanco (IfthenPay gateway) for WooCommerce
  * Plugin URI: http://www.webdados.pt/produtos-e-servicos/internet/desenvolvimento-wordpress/multibanco-ifthen-software-gateway-woocommerce-wordpress/
  * Description: This plugin allows Portuguese costumers to pay WooCommerce orders with Multibanco (Pag. Serviços), using the IfthenPay gateway.
- * Version: 1.4.2
+ * Version: 1.5
  * Author: Webdados
  * Author URI: http://www.webdados.pt
  * Text Domain: multibanco_ifthen_for_woocommerce
@@ -53,7 +53,7 @@ if (in_array('woocommerce/woocommerce.php', (array) get_option('active_plugins')
 					if ($this->debug) $this->log = $woocommerce->logger();
 					$this->debug_email = $this->get_option('debug_email');
 					
-					$this->version = '1.4.2';
+					$this->version = '1.5';
 					$this->upgrade();
 
 	            	load_plugin_textdomain('multibanco_ifthen_for_woocommerce', false, dirname(plugin_basename(__FILE__)) . '/lang/');
@@ -78,18 +78,19 @@ if (in_array('woocommerce/woocommerce.php', (array) get_option('active_plugins')
 					$this->subent = $this->get_option('subent');
 					$this->only_portugal = $this->get_option('only_portugal');
 					$this->only_above = $this->get_option('only_above');
+					$this->only_bellow = $this->get_option('only_bellow');
 			 
 					// Actions and filters
-					add_action('woocommerce_update_options_payment_gateways_'.$this->id, array(&$this, 'process_admin_options'));
-					add_action('woocommerce_thankyou_'.$this->id, array(&$this, 'thankyou'));
-					add_filter('woocommerce_available_payment_gateways', array(&$this, 'disable_unless_portugal'));
-					add_filter('woocommerce_available_payment_gateways', array(&$this, 'disable_above'));
+					add_action('woocommerce_update_options_payment_gateways_'.$this->id, array($this, 'process_admin_options'));
+					add_action('woocommerce_thankyou_'.$this->id, array($this, 'thankyou'));
+					add_filter('woocommerce_available_payment_gateways', array($this, 'disable_unless_portugal'));
+					add_filter('woocommerce_available_payment_gateways', array($this, 'disable_only_above_or_bellow'));
 				 
 					// Customer Emails
-					add_action('woocommerce_email_before_order_table', array(&$this, 'email_instructions'), 10, 2);
+					add_action('woocommerce_email_before_order_table', array($this, 'email_instructions'), 10, 2);
 
 					// Payment listener/API hook
-					add_action( 'woocommerce_api_wc_multibanco_ifthen_webdados', array( $this, 'callback'));
+					add_action('woocommerce_api_wc_multibanco_ifthen_webdados', array($this, 'callback'));
 					
 				}
 
@@ -139,8 +140,14 @@ if (in_array('woocommerce/woocommerce.php', (array) get_option('active_plugins')
 						'only_above' => array(
 										'title' => __('Only for orders above', 'multibanco_ifthen_for_woocommerce'), 
 										'type' => 'number', 
-										'description' => __( 'Enable only for orders above x &euro;. Leave blank (or zero) to allow for any order value.', 'multibanco_ifthen_for_woocommerce'), 
-										'default' => 'no'
+										'description' => __( 'Enable only for orders above x &euro; (exclusive). Leave blank (or zero) to allow for any order value.', 'multibanco_ifthen_for_woocommerce').' <br/> '.__( 'By design, Mulitibanco only allows payments from 1 to 999999 &euro; (inclusive). You can use this option to further limit this range.', 'multibanco_ifthen_for_woocommerce'), 
+										'default' => ''
+									),
+						'only_bellow' => array(
+										'title' => __('Only for orders bellow', 'multibanco_ifthen_for_woocommerce'), 
+										'type' => 'number', 
+										'description' => __( 'Enable only for orders bellow x &euro; (exclusive). Leave blank (or zero) to allow for any order value.', 'multibanco_ifthen_for_woocommerce').' <br/> '.__( 'By design, Mulitibanco only allows payments from 1 to 999999 &euro; (inclusive). You can use this option to further limit this range.', 'multibanco_ifthen_for_woocommerce'), 
+										'default' => ''
 									),
 						'title' => array(
 										'title' => __('Title', 'woocommerce' ), 
@@ -238,7 +245,7 @@ if (in_array('woocommerce/woocommerce.php', (array) get_option('active_plugins')
 				 * Thank you page
 				 */
 				function thankyou($order_id) {
-					$order = &new WC_Order($order_id);
+					$order = new WC_Order($order_id);
 					?>
 					<style type="text/css">
 						table.multibanco_ifthen_for_woocommerce_table {
@@ -387,13 +394,18 @@ if (in_array('woocommerce/woocommerce.php', (array) get_option('active_plugins')
 				}
 
 				/**
-				 * Just above certain amounts
+				 * Just above/bellow certain amounts
 				 */
-				function disable_above($available_gateways) {
+				function disable_only_above_or_bellow($available_gateways) {
 					global $woocommerce;
 					if (isset($available_gateways[$this->id])) {
-						if (floatval($available_gateways[$this->id]->only_above)>0) {
-							if(floatval($available_gateways[$this->id]->only_above)<$woocommerce->cart->total) {
+						if (@floatval($available_gateways[$this->id]->only_above)>0) {
+							if($woocommerce->cart->total<floatval($available_gateways[$this->id]->only_above)) {
+								unset($available_gateways[$this->id]);
+							}
+						} 
+						if (@floatval($available_gateways[$this->id]->only_bellow)>0) {
+							if($woocommerce->cart->total>floatval($available_gateways[$this->id]->only_bellow)) {
 								unset($available_gateways[$this->id]);
 							}
 						} 
@@ -401,11 +413,12 @@ if (in_array('woocommerce/woocommerce.php', (array) get_option('active_plugins')
 					return $available_gateways;
 				}
 
+
 				/**
 				 * Get/Create Reference
 				 */
 				function get_ref($order_id) {
-					$order=&new WC_Order($order_id);
+					$order=new WC_Order($order_id);
 
 					if (trim(get_woocommerce_currency())=='EUR') {
 						$meta_values=get_post_meta($order->id);
@@ -552,7 +565,7 @@ if (in_array('woocommerce/woocommerce.php', (array) get_option('active_plugins')
 							if ($the_query->have_posts()) {
 								if ($the_query->post_count==1) {
 									while ( $the_query->have_posts() ) : $the_query->the_post();
-										$order = &new WC_Order( $the_query->post->ID );
+										$order = new WC_Order( $the_query->post->ID );
 									endwhile;
 									if ($val==floatval($order->order_total)) {
 										//We must first change the order status to "pending" and then to "processing" or no email will be sent to the client
@@ -615,7 +628,7 @@ if (in_array('woocommerce/woocommerce.php', (array) get_option('active_plugins')
 		add_meta_box('multibanco_ifthen_for_woocommerce', __('Multibanco payment details', 'multibanco_ifthen_for_woocommerce'), 'mbifthen_order_meta_box_html', 'shop_order', 'side', 'core');
 	}
 	function mbifthen_order_meta_box_html($post) {
-		$order=&new WC_Order($post->ID);
+		$order=new WC_Order($post->ID);
 		$meta_values=get_post_meta($order->id);
 		if (
 			!empty($meta_values['_multibanco_ifthen_for_woocommerce_ent'][0])
