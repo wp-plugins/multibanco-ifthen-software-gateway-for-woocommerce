@@ -224,7 +224,7 @@ if (in_array('woocommerce/woocommerce.php', (array) get_option('active_plugins')
 						$this->generate_settings_html();
 					} else {
 						?>
-						<p><b><?php _e('ERROR!', 'multibanco_ifthen_for_woocommerce'); ?> <?php printf( __('Set WooCommerce currency to <b>Euros (&euro;)</b> %1$s', 'multibanco_ifthen_for_woocommerce'), '<a href="admin.php?page=woocommerce_settings&tab=general">'._('here', 'multibanco_ifthen_for_woocommerce').'</a>.'); ?></b></p>
+						<p><b><?php _e('ERROR!', 'multibanco_ifthen_for_woocommerce'); ?> <?php printf( __('Set WooCommerce currency to <b>Euros (&euro;)</b> %1$s', 'multibanco_ifthen_for_woocommerce'), '<a href="admin.php?page=woocommerce_settings&tab=general">'.__('here', 'multibanco_ifthen_for_woocommerce').'</a>.'); ?></b></p>
 						<?php
 					}
 					?>
