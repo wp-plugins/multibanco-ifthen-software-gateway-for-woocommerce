@@ -3,7 +3,7 @@
  * Plugin Name: Multibanco (IfthenPay gateway) for WooCommerce
  * Plugin URI: http://www.webdados.pt/produtos-e-servicos/internet/desenvolvimento-wordpress/multibanco-ifthen-software-gateway-woocommerce-wordpress/
  * Description: This plugin allows Portuguese costumers to pay WooCommerce orders with Multibanco (Pag. Serviços), using the IfthenPay gateway.
- * Version: 1.5
+ * Version: 1.5.1
  * Author: Webdados
  * Author URI: http://www.webdados.pt
  * Text Domain: multibanco_ifthen_for_woocommerce
@@ -50,10 +50,10 @@ if (in_array('woocommerce/woocommerce.php', (array) get_option('active_plugins')
 
 					// Logs
 					$this->debug = ($this->get_option('debug')=='yes' ? true : false);
-					if ($this->debug) $this->log = $woocommerce->logger();
+					if ($this->debug) $this->log = new WC_Logger();
 					$this->debug_email = $this->get_option('debug_email');
 					
-					$this->version = '1.5';
+					$this->version = '1.5.1';
 					$this->upgrade();
 
 	            	load_plugin_textdomain('multibanco_ifthen_for_woocommerce', false, dirname(plugin_basename(__FILE__)) . '/lang/');
@@ -328,18 +328,18 @@ if (in_array('woocommerce/woocommerce.php', (array) get_option('active_plugins')
 									if (is_array($ref)) { ?>
 									<tr>
 										<td style="border: 1px solid #1465AA; color: #000000;"><?php _e('Entity', 'multibanco_ifthen_for_woocommerce'); ?>:</td>
-										<td style="border: 1px solid #1465AA; color: #000000;"><?php echo $ref['ent']; ?></td>
+										<td style="border: 1px solid #1465AA; color: #000000; white-space: nowrap;"><?php echo $ref['ent']; ?></td>
 									</tr>
 									<tr>
 										<td style="border: 1px solid #1465AA; color: #000000;"><?php _e('Reference', 'multibanco_ifthen_for_woocommerce'); ?>:</td>
-										<td style="border: 1px solid #1465AA; color: #000000;"><?php echo chunk_split($ref['ref'], 3, ' '); ?></td>
+										<td style="border: 1px solid #1465AA; color: #000000; white-space: nowrap;"><?php echo chunk_split($ref['ref'], 3, ' '); ?></td>
 									</tr>
 									<tr>
 										<td style="border: 1px solid #1465AA; color: #000000;"><?php _e('Value', 'multibanco_ifthen_for_woocommerce'); ?>:</td>
-										<td style="border: 1px solid #1465AA; color: #000000;"><?php echo $order->order_total; ?> &euro;</td>
+										<td style="border: 1px solid #1465AA; color: #000000; white-space: nowrap;"><?php echo $order->order_total; ?> &euro;</td>
 									</tr>
 									<tr>
-										<td style="font-size: x-small; border: 1px solid #1465AA; border-bottom-right-radius: 4px !important; border-bottom-left-radius: 4px !important; color: #000000;" colspan="2"><?php _e('The receipt issued by the ATM machine is a proof of payment. Keep it.', 'multibanco_ifthen_for_woocommerce'); ?></td>
+										<td style="font-size: x-small; border: 1px solid #1465AA; border-bottom-right-radius: 4px !important; border-bottom-left-radius: 4px !important; color: #000000; text-align: center;" colspan="2"><?php _e('The receipt issued by the ATM machine is a proof of payment. Keep it.', 'multibanco_ifthen_for_woocommerce'); ?></td>
 									</tr>
 								<?php } else { ?>
 									<tr>
@@ -468,6 +468,7 @@ if (in_array('woocommerce/woocommerce.php', (array) get_option('active_plugins')
 					$seed=str_pad(intval($seed), 4, "0", STR_PAD_LEFT);
 					$chk_str=sprintf('%05u%03u%04u%08u', $ent, $subent, $seed, round($total*100));
 					$chk_array=array(3, 30, 9, 90, 27, 76, 81, 34, 49, 5, 50, 15, 53, 45, 62, 38, 89, 17, 73, 51);
+					$chk_val=0;
 					for ($i = 0; $i < 20; $i++) {
 						$chk_int = substr($chk_str, 19-$i, 1);
 						$chk_val += ($chk_int%10)*$chk_array[$i];
