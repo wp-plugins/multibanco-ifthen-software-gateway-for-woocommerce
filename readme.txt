@@ -40,9 +40,9 @@ Nop! You have to sign a contract with IfthenPay in order to activate this servic
 
 Don't cry! There's a solution!
 You probably have weird permalink settings on your WordPress installation.
-Tell them to change the callback URL from `http://yourwebsite/?wc-api=WC_Multibanco_IfThen_Webdados&chave=[CHAVE_ANTI_PHISHING]&entidade=[ENTIDADE]&referencia=[REFERENCIA]&valor=[VALOR]` to `http://yourwebsite/?wc-api=WC_Multibanco_IfThen_Webdados&chave=[CHAVE_ANTI_PHISHING]&entidade=[ENTIDADE]&referencia=[REFERENCIA]&valor=[VALOR]`
+Tell them to change the callback URL from `http://yourwebsite/wc-api/WC_Multibanco_IfThen_Webdados/?chave=[CHAVE_ANTI_PHISHING]&entidade=[ENTIDADE]&referencia=[REFERENCIA]&valor=[VALOR]` to `http://yourwebsite/?wc-api=WC_Multibanco_IfThen_Webdados&chave=[CHAVE_ANTI_PHISHING]&entidade=[ENTIDADE]&referencia=[REFERENCIA]&valor=[VALOR]`
 
-= Can I change the payment instructions look and feel on the "Tahnk you" page and/or the new order email? =
+= Can I change the payment instructions look and feel on the "Thank you" page and/or the new order email? =
 
 Yes you can! But you have to know your way around WordPress filters. There are two filters to do this and you can find examples of them inside `filters_examples.php`
 
