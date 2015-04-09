@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Multibanco (IfthenPay gateway) for WooCommerce package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Multibanco (IfthenPay gateway) for WooCommerce 1.5\n"
+"Project-Id-Version: Multibanco (IfthenPay gateway) for WooCommerce 1.6\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/support/plugin/multibanco-ifthen-"
 "software-gateway-for-woocommerce\n"
 "POT-Creation-Date: 2014-10-29 14:29:13+00:00\n"
@@ -55,14 +55,30 @@ msgid ""
 "(inclusive). You can use this option to further limit this range."
 msgstr ""
 
-#: multibanco_ifthen_for_woocommerce.php:147
-msgid "Only for orders bellow"
+#: multibanco_ifthen_for_woocommerce.php:154
+msgid "Reduce stock"
+msgstr ""
+
+#: multibanco_ifthen_for_woocommerce.php:156
+msgid "Choose when to reduce stock."
+msgstr ""
+
+#: multibanco_ifthen_for_woocommerce.php:159
+msgid "when order is paid (requires active callback)"
+msgstr ""
+
+#: multibanco_ifthen_for_woocommerce.php:160
+msgid "when order is placed (before payment)"
 msgstr ""
 
 #: multibanco_ifthen_for_woocommerce.php:149
 msgid ""
 "Enable only for orders bellow x &euro; (exclusive). Leave blank (or zero) to "
 "allow for any order value."
+msgstr ""
+
+#: multibanco_ifthen_for_woocommerce.php:154
+msgid "Only for orders bellow"
 msgstr ""
 
 #: multibanco_ifthen_for_woocommerce.php:156
@@ -200,7 +216,7 @@ msgstr ""
 
 #: multibanco_ifthen_for_woocommerce.php:300
 #: multibanco_ifthen_for_woocommerce.php:346
-msgid "Error"
+msgid "Error getting Multibanco payment details"
 msgstr ""
 
 #: multibanco_ifthen_for_woocommerce.php:355

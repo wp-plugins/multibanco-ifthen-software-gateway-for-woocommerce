@@ -3,7 +3,7 @@
  * Plugin Name: Multibanco (IfthenPay gateway) for WooCommerce
  * Plugin URI: http://www.webdados.pt/produtos-e-servicos/internet/desenvolvimento-wordpress/multibanco-ifthen-software-gateway-woocommerce-wordpress/
  * Description: This plugin allows Portuguese costumers to pay WooCommerce orders with Multibanco (Pag. Serviços), using the IfthenPay gateway.
- * Version: 1.5.1
+ * Version: 1.6
  * Author: Webdados
  * Author URI: http://www.webdados.pt
  * Text Domain: multibanco_ifthen_for_woocommerce
@@ -53,19 +53,19 @@ if (in_array('woocommerce/woocommerce.php', (array) get_option('active_plugins')
 					if ($this->debug) $this->log = new WC_Logger();
 					$this->debug_email = $this->get_option('debug_email');
 					
-					$this->version = '1.5.1';
+					$this->version = '1.6';
 					$this->upgrade();
 
-	            	load_plugin_textdomain('multibanco_ifthen_for_woocommerce', false, dirname(plugin_basename(__FILE__)) . '/lang/');
-	            	//$this->icon = WP_PLUGIN_URL."/".plugin_basename( dirname(__FILE__)) . '/images/icon.png';
-	            	$this->icon = plugins_url('images/icon.png', __FILE__);
-	            	$this->has_fields = false;
-	            	$this->method_title = __('Pagamento de Serviços no Multibanco (Ifthen)', 'multibanco_ifthen_for_woocommerce');
+					load_plugin_textdomain('multibanco_ifthen_for_woocommerce', false, dirname(plugin_basename(__FILE__)) . '/lang/');
+					//$this->icon = WP_PLUGIN_URL."/".plugin_basename( dirname(__FILE__)) . '/images/icon.png';
+					$this->icon = plugins_url('images/icon.png', __FILE__);
+					$this->has_fields = false;
+					$this->method_title = __('Pagamento de Serviços no Multibanco (Ifthen)', 'multibanco_ifthen_for_woocommerce');
 					$this->secret_key = $this->get_option('secret_key');
 					if (trim($this->secret_key)=='') {
 						$this->secret_key=md5(home_url().time().rand(0,999));
 					}
-	            	$this->notify_url = str_replace( 'https:', 'http:', home_url( '/' ) ).'wc-api/WC_Multibanco_IfThen_Webdados/?chave=[CHAVE_ANTI_PHISHING]&entidade=[ENTIDADE]&referencia=[REFERENCIA]&valor=[VALOR]';
+					$this->notify_url = str_replace( 'https:', 'http:', home_url( '/' ) ).'wc-api/WC_Multibanco_IfThen_Webdados/?chave=[CHAVE_ANTI_PHISHING]&entidade=[ENTIDADE]&referencia=[REFERENCIA]&valor=[VALOR]';
 
 					//Plugin options and settings
 					$this->init_form_fields();
@@ -79,6 +79,7 @@ if (in_array('woocommerce/woocommerce.php', (array) get_option('active_plugins')
 					$this->only_portugal = $this->get_option('only_portugal');
 					$this->only_above = $this->get_option('only_above');
 					$this->only_bellow = $this->get_option('only_bellow');
+					$this->stock_when = $this->get_option('stock_when');
 			 
 					// Actions and filters
 					add_action('woocommerce_update_options_payment_gateways_'.$this->id, array($this, 'process_admin_options'));
@@ -149,6 +150,16 @@ if (in_array('woocommerce/woocommerce.php', (array) get_option('active_plugins')
 										'description' => __( 'Enable only for orders bellow x &euro; (exclusive). Leave blank (or zero) to allow for any order value.', 'multibanco_ifthen_for_woocommerce').' <br/> '.__( 'By design, Mulitibanco only allows payments from 1 to 999999 &euro; (inclusive). You can use this option to further limit this range.', 'multibanco_ifthen_for_woocommerce'), 
 										'default' => ''
 									),
+						'stock_when' => array(
+										'title' => __('Reduce stock', 'multibanco_ifthen_for_woocommerce'), 
+										'type' => 'select', 
+										'description' => __( 'Choose when to reduce stock.', 'multibanco_ifthen_for_woocommerce'), 
+										'default' => '',
+										'options'	=> array(
+											''		=> __('when order is paid (requires active callback)', 'multibanco_ifthen_for_woocommerce'),
+											'order'	=> __('when order is placed (before payment)', 'multibanco_ifthen_for_woocommerce'),
+										),
+									),
 						'title' => array(
 										'title' => __('Title', 'woocommerce' ), 
 										'type' => 'text', 
@@ -159,13 +170,13 @@ if (in_array('woocommerce/woocommerce.php', (array) get_option('active_plugins')
 										'title' => __('Description', 'woocommerce' ), 
 										'type' => 'textarea',
 										'description' => __('This controls the description which the user sees during checkout.', 'woocommerce' ), 
-										'default' => __('Easy and simple payment using "Pagamento de Serviços" at any "Multibanco" ATM terminal or your Home Banking service. (Only available to customers of Portuguese banks)', 'multibanco_ifthen_for_woocommerce')    
+										'default' => __('Easy and simple payment using "Pagamento de Serviços" at any "Multibanco" ATM terminal or your Home Banking service. (Only available to customers of Portuguese banks)', 'multibanco_ifthen_for_woocommerce')
 									),
 						'ent' => array(
 										'title' => __('Entity', 'multibanco_ifthen_for_woocommerce'), 
 										'type' => 'number',
 										'description' => __( 'Entity provided by IfthenPay when signing the contract. (E.g.: 10559, 11202, 11473, 11604)', 'multibanco_ifthen_for_woocommerce'), 
-										'default' => ''    
+										'default' => ''
 									),
 						'subent' => array(
 										'title' => __('Subentity', 'multibanco_ifthen_for_woocommerce'), 
@@ -246,6 +257,17 @@ if (in_array('woocommerce/woocommerce.php', (array) get_option('active_plugins')
 				 */
 				function thankyou($order_id) {
 					$order = new WC_Order($order_id);
+					$ref = $this->get_ref($order->id);
+					if (is_array($ref)) {
+						echo $this->thankyou_instructions_table_html($ref['ent'], $ref['ref'], $order->order_total);
+					} else {
+						?>
+						<p><b><?php _e('Error getting Multibanco payment details', 'multibanco_ifthen_for_woocommerce'); ?>.</b></p>
+						<?php
+					}
+				}
+				function thankyou_instructions_table_html($ent, $ref, $order_total) {
+					ob_start();
 					?>
 					<style type="text/css">
 						table.multibanco_ifthen_for_woocommerce_table {
@@ -277,32 +299,24 @@ if (in_array('woocommerce/woocommerce.php', (array) get_option('active_plugins')
 								<img src="<?php echo plugins_url('images/banner.png', __FILE__); ?>" alt="<?php echo esc_attr($this->title); ?>" title="<?php echo esc_attr($this->title); ?>"/>
 							</th>
 						</tr>
-						<?php
-							$ref = $this->get_ref($order->id);
-							if (is_array($ref)) { ?>
-							<tr>
-								<td><?php _e('Entity', 'multibanco_ifthen_for_woocommerce'); ?>:</td>
-								<td><?php echo $ref['ent']; ?></td>
-							</tr>
-							<tr>
-								<td><?php _e('Reference', 'multibanco_ifthen_for_woocommerce'); ?>:</td>
-								<td><?php echo chunk_split($ref['ref'], 3, ' '); ?></td>
-							</tr>
-							<tr>
-								<td><?php _e('Value', 'multibanco_ifthen_for_woocommerce'); ?>:</td>
-								<td><?php echo $order->order_total; ?> &euro;</td>
-							</tr>
-							<tr>
-								<td colspan="2" style="font-size: small;"><?php _e('The receipt issued by the ATM machine is a proof of payment. Keep it.', 'multibanco_ifthen_for_woocommerce'); ?></td>
-							</tr>
-						<?php } else { ?>
-							<tr>
-								<td><b><?php _e('Error', 'multibanco_ifthen_for_woocommerce'); ?>:</b></td>
-								<td><?php echo $ref; ?></td>
-							</tr>
-						<?php } ?>
+						<tr>
+							<td><?php _e('Entity', 'multibanco_ifthen_for_woocommerce'); ?>:</td>
+							<td><?php echo $ent; ?></td>
+						</tr>
+						<tr>
+							<td><?php _e('Reference', 'multibanco_ifthen_for_woocommerce'); ?>:</td>
+							<td><?php echo chunk_split($ref, 3, ' '); ?></td>
+						</tr>
+						<tr>
+							<td><?php _e('Value', 'multibanco_ifthen_for_woocommerce'); ?>:</td>
+							<td><?php echo $order_total; ?> &euro;</td>
+						</tr>
+						<tr>
+							<td colspan="2" style="font-size: small;"><?php _e('The receipt issued by the ATM machine is a proof of payment. Keep it.', 'multibanco_ifthen_for_woocommerce'); ?></td>
+						</tr>
 					</table>
 					<?php
+					return apply_filters('multibanco_ifthen_thankyou_instructions_table_html', ob_get_clean(), $ent, $ref, $order_total);
 				}
 
 
@@ -314,41 +328,14 @@ if (in_array('woocommerce/woocommerce.php', (array) get_option('active_plugins')
 					switch ($order->status) {
 						case 'on-hold':
 						case 'pending':
-							?>
-							<table cellpadding="10" cellspacing="0" align="center" border="0" style="margin: auto; margin-top: 10px; margin-bottom: 10px; border-collapse: collapse; border: 1px solid #1465AA; border-radius: 4px !important; background-color: #FFFFFF;">
-								<tr>
-									<td style="border: 1px solid #1465AA; border-top-right-radius: 4px !important; border-top-left-radius: 4px !important; text-align: center; color: #000000; font-weight: bold;" colspan="2">
-										<?php _e('Payment instructions', 'multibanco_ifthen_for_woocommerce'); ?>
-										<br/>
-										<img src="<?php echo plugins_url('images/banner.png', __FILE__); ?>" alt="<?php echo esc_attr($this->title); ?>" title="<?php echo esc_attr($this->title); ?>" style="margin-top: 10px;"/>
-									</td>
-								</tr>
+							$ref = $this->get_ref($order->id);
+							if (is_array($ref)) {
+								echo $this->email_instructions_table_html($ref['ent'], $ref['ref'], $order->order_total);
+							} else {
+								?>
+								<p><b><?php _e('Error getting Multibanco payment details', 'multibanco_ifthen_for_woocommerce'); ?>.</b></p>
 								<?php
-									$ref = $this->get_ref($order->id);
-									if (is_array($ref)) { ?>
-									<tr>
-										<td style="border: 1px solid #1465AA; color: #000000;"><?php _e('Entity', 'multibanco_ifthen_for_woocommerce'); ?>:</td>
-										<td style="border: 1px solid #1465AA; color: #000000; white-space: nowrap;"><?php echo $ref['ent']; ?></td>
-									</tr>
-									<tr>
-										<td style="border: 1px solid #1465AA; color: #000000;"><?php _e('Reference', 'multibanco_ifthen_for_woocommerce'); ?>:</td>
-										<td style="border: 1px solid #1465AA; color: #000000; white-space: nowrap;"><?php echo chunk_split($ref['ref'], 3, ' '); ?></td>
-									</tr>
-									<tr>
-										<td style="border: 1px solid #1465AA; color: #000000;"><?php _e('Value', 'multibanco_ifthen_for_woocommerce'); ?>:</td>
-										<td style="border: 1px solid #1465AA; color: #000000; white-space: nowrap;"><?php echo $order->order_total; ?> &euro;</td>
-									</tr>
-									<tr>
-										<td style="font-size: x-small; border: 1px solid #1465AA; border-bottom-right-radius: 4px !important; border-bottom-left-radius: 4px !important; color: #000000; text-align: center;" colspan="2"><?php _e('The receipt issued by the ATM machine is a proof of payment. Keep it.', 'multibanco_ifthen_for_woocommerce'); ?></td>
-									</tr>
-								<?php } else { ?>
-									<tr>
-										<td><b><?php _e('Error', 'multibanco_ifthen_for_woocommerce'); ?>:</b></td>
-										<td><?php echo $ref; ?></td>
-									</tr>
-								<?php } ?>
-							</table>
-							<?php
+							}
 							break;
 						case 'processing':
 							?>
@@ -359,7 +346,37 @@ if (in_array('woocommerce/woocommerce.php', (array) get_option('active_plugins')
 							return;
 							break;
 					}
-    			}
+				}
+				function email_instructions_table_html($ent, $ref, $order_total) {
+					ob_start();
+					?>
+					<table cellpadding="10" cellspacing="0" align="center" border="0" style="margin: auto; margin-top: 10px; margin-bottom: 10px; border-collapse: collapse; border: 1px solid #1465AA; border-radius: 4px !important; background-color: #FFFFFF;">
+						<tr>
+							<td style="border: 1px solid #1465AA; border-top-right-radius: 4px !important; border-top-left-radius: 4px !important; text-align: center; color: #000000; font-weight: bold;" colspan="2">
+								<?php _e('Payment instructions', 'multibanco_ifthen_for_woocommerce'); ?>
+								<br/>
+								<img src="<?php echo plugins_url('images/banner.png', __FILE__); ?>" alt="<?php echo esc_attr($this->title); ?>" title="<?php echo esc_attr($this->title); ?>" style="margin-top: 10px;"/>
+							</td>
+						</tr>
+						<tr>
+							<td style="border: 1px solid #1465AA; color: #000000;"><?php _e('Entity', 'multibanco_ifthen_for_woocommerce'); ?>:</td>
+							<td style="border: 1px solid #1465AA; color: #000000; white-space: nowrap;"><?php echo $ent; ?></td>
+						</tr>
+						<tr>
+							<td style="border: 1px solid #1465AA; color: #000000;"><?php _e('Reference', 'multibanco_ifthen_for_woocommerce'); ?>:</td>
+							<td style="border: 1px solid #1465AA; color: #000000; white-space: nowrap;"><?php echo chunk_split($ref, 3, ' '); ?></td>
+						</tr>
+						<tr>
+							<td style="border: 1px solid #1465AA; color: #000000;"><?php _e('Value', 'multibanco_ifthen_for_woocommerce'); ?>:</td>
+							<td style="border: 1px solid #1465AA; color: #000000; white-space: nowrap;"><?php echo $order_total; ?> &euro;</td>
+						</tr>
+						<tr>
+							<td style="font-size: x-small; border: 1px solid #1465AA; border-bottom-right-radius: 4px !important; border-bottom-left-radius: 4px !important; color: #000000; text-align: center;" colspan="2"><?php _e('The receipt issued by the ATM machine is a proof of payment. Keep it.', 'multibanco_ifthen_for_woocommerce'); ?></td>
+						</tr>
+					</table>
+					<?php
+					return apply_filters('multibanco_ifthen_email_instructions_table_html', ob_get_clean(), $ent, $ref, $order_total);
+				}
 
 				/**
 				 * Process it
@@ -370,7 +387,7 @@ if (in_array('woocommerce/woocommerce.php', (array) get_option('active_plugins')
 					// Mark as on-hold
 					$order->update_status('on-hold', __('Awaiting Multibanco payment.', 'multibanco_ifthen_for_woocommerce'));
 					// Reduce stock levels
-					//$order->reduce_order_stock();  //No we don't!
+					if ($this->stock_when=='order') $order->reduce_order_stock();
 					// Remove cart
 					$woocommerce->cart->empty_cart();
 					// Empty awaiting payment session
@@ -573,7 +590,7 @@ if (in_array('woocommerce/woocommerce.php', (array) get_option('active_plugins')
 										include_once(ABSPATH.'wp-admin/includes/plugin.php' );
 										if (!is_plugin_active('order-status-emails-for-woocommerce/order-status-emails-for-woocommerce.php')) //Only if this plugin is not active
 											if ($order->status!='pending') $order->update_status('pending', __('Temporary status. Used to force an email on the next order status change.', 'multibanco_ifthen_for_woocommerce'));
-										$order->reduce_order_stock(); //Now we reduce the stock
+										if ($this->stock_when=='') $order->reduce_order_stock();
 										$order->update_status('processing', __('Multibanco payment received.', 'multibanco_ifthen_for_woocommerce')); //Paid
 										header('HTTP/1.1 200 OK');
 										if ($this->debug) $this->log->add($this->id, '-- Multibanco payment received');
@@ -612,8 +629,8 @@ if (in_array('woocommerce/woocommerce.php', (array) get_option('active_plugins')
 				}
 
 			}
-    	}
-    }
+		}
+	}
 	add_action( 'plugins_loaded', 'mbifthen_init', 0);
 	
 

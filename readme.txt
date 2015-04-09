@@ -5,7 +5,7 @@ Author URI: http://www.webdados.pt
 Plugin URI: http://www.webdados.pt/produtos-e-servicos/internet/desenvolvimento-wordpress/multibanco-ifthen-software-gateway-woocommerce-wordpress/
 Requires at least: 3.8
 Tested up to: 4.0.1
-Stable tag: 1.5.1
+Stable tag: 1.6
 
 This plugin allows Portuguese costumers to pay WooCommerce orders with Multibanco (Pag. Serviços), using the IfthenPay gateway.
 
@@ -32,11 +32,26 @@ This is NOT an official plugin by Ifthen, yet it has been tested with them and i
 
 == Frequently Asked Questions ==
 
-= Why is there no FAQs? =
+= Can I start receiving payments right away? Show me the money! =
 
-The plugin is new, so no question is frequent. Ask us something ;-)
+Nop! You have to sign a contract with IfthenPay in order to activate this service. Go to [http://www.ifthenpay.com](http://www.ifthenpay.com) for more information
+
+= IfthenPay says my callback URL is returning a 404 error. Should I sit in a corner and cry or is there a solution? =
+
+Don't cry! There's a solution!
+You probably have weird permalink settings on your WordPress installation.
+Tell them to change the callback URL from `http://yourwebsite/?wc-api=WC_Multibanco_IfThen_Webdados&chave=[CHAVE_ANTI_PHISHING]&entidade=[ENTIDADE]&referencia=[REFERENCIA]&valor=[VALOR]` to `http://yourwebsite/?wc-api=WC_Multibanco_IfThen_Webdados&chave=[CHAVE_ANTI_PHISHING]&entidade=[ENTIDADE]&referencia=[REFERENCIA]&valor=[VALOR]`
+
+= Can I change the payment instructions look and feel on the "Tahnk you" page and/or the new order email? =
+
+Yes you can! But you have to know your way around WordPress filters. There are two filters to do this and you can find examples of them inside `filters_examples.php`
 
 == Changelog ==
+
+= 1.6 =
+* It's now possible to decide either to reduce stock when the payment is confirmed via callback (default) or when the order is placed by the client. On the first case you don't have to fix the stock if the order is never paid but you'll also not have the quantity reserved for this order. On the second case you'll have to manually fix the stock if the order is never paid.
+* There's 2 filters that allow to change the payment instructions on both the "Thank you" page and on the client email. You can choose either to manipulate the default html or create your own. See filters_examples.php
+* Minor Portuguese translation tweaks.
 
 = 1.5.1 =
 * Minor visual tweaks
