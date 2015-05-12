@@ -4,7 +4,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://wordpress.org/support/plugin/multibanco-ifthen-"
 "software-gateway-for-woocommerce\n"
 "POT-Creation-Date: 2014-10-29 14:29:13+00:00\n"
-"PO-Revision-Date: 2015-04-09 15:31-0000\n"
+"PO-Revision-Date: 2015-05-12 15:46-0000\n"
 "Last-Translator: Wonderm00n <wonderm00n@gmail.com>\n"
 "Language-Team: Wonderm00n <wonderm00n@gmail.com>\n"
 "Language: pt_PT\n"
@@ -51,8 +51,8 @@ msgid ""
 "Enable only for orders above x &euro; (exclusive). Leave blank (or zero) to "
 "allow for any order value."
 msgstr ""
-"Activar apenas para encomendas acima de x &euro (exclusivé). Deixe em branco "
-"(ou zero) para activar para qualquer valor de encomenda."
+"Activar apenas para encomendas acima de x &euro; (exclusive). Deixe em "
+"branco (ou zero) para activar para qualquer valor de encomenda."
 
 #: multibanco_ifthen_for_woocommerce.php:143
 #: multibanco_ifthen_for_woocommerce.php:149
@@ -86,7 +86,7 @@ msgid ""
 "Enable only for orders bellow x &euro; (exclusive). Leave blank (or zero) to "
 "allow for any order value."
 msgstr ""
-"Activar apenas para encomendas abaixo de x &euro (exclusivé). Deixe em "
+"Activar apenas para encomendas abaixo de x &euro; (exclusive). Deixe em "
 "branco (ou zero) para activar para qualquer valor de encomenda."
 
 # @ multibanco_ifthen_for_woocommerce
@@ -153,14 +153,11 @@ msgstr ""
 "Para garantir a segurança do <i>callback</i>, gerada pelo sistema e que tem "
 "de ser fornecida à IfthenPay no pedido de activação do <i>callback</i>."
 
-# @ multibanco_ifthen_for_woocommerce
 #: multibanco_ifthen_for_woocommerce.php:187
-msgid ""
-"Log plugin events, such as callback requests, inside <code>woocommerce/logs/"
-"multibanco_ifthen_for_woocommerce-%s.txt</code>"
+msgid "Log plugin events, such as callback requests, inside <code>%s</code>"
 msgstr ""
 "Efectuar log dos eventos do plugin, como chamadas de <i>callback</i> em "
-"<code>woocommerce/logs/multibanco_ifthen_for_woocommerce-%s.txt</code>"
+"<code>%s</code>"
 
 # @ multibanco_ifthen_for_woocommerce
 #: multibanco_ifthen_for_woocommerce.php:190
@@ -348,6 +345,14 @@ msgstr ""
 "Este plugin permite que clientes Portugueses paguem encomendas do "
 "WooCommerce através de Pagamento de Serviços no Multibanco, utilizando a "
 "gateway da IfthenPay."
+
+# @ multibanco_ifthen_for_woocommerce
+#~ msgid ""
+#~ "Log plugin events, such as callback requests, inside <code>woocommerce/"
+#~ "logs/multibanco_ifthen_for_woocommerce-%s.txt</code>"
+#~ msgstr ""
+#~ "Efectuar log dos eventos do plugin, como chamadas de <i>callback</i> em "
+#~ "<code>woocommerce/logs/multibanco_ifthen_for_woocommerce-%s.txt</code>"
 
 # @ multibanco_ifthen_for_woocommerce
 #~ msgid "Error"

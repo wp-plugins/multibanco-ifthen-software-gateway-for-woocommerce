@@ -3,7 +3,7 @@
  * Plugin Name: Multibanco (IfthenPay gateway) for WooCommerce
  * Plugin URI: http://www.webdados.pt/produtos-e-servicos/internet/desenvolvimento-wordpress/multibanco-ifthen-software-gateway-woocommerce-wordpress/
  * Description: This plugin allows Portuguese costumers to pay WooCommerce orders with Multibanco (Pag. Serviços), using the IfthenPay gateway.
- * Version: 1.6
+ * Version: 1.6.1
  * Author: Webdados
  * Author URI: http://www.webdados.pt
  * Text Domain: multibanco_ifthen_for_woocommerce
@@ -53,7 +53,7 @@ if (in_array('woocommerce/woocommerce.php', (array) get_option('active_plugins')
 					if ($this->debug) $this->log = new WC_Logger();
 					$this->debug_email = $this->get_option('debug_email');
 					
-					$this->version = '1.6';
+					$this->version = '1.6.1';
 					$this->upgrade();
 
 					load_plugin_textdomain('multibanco_ifthen_for_woocommerce', false, dirname(plugin_basename(__FILE__)) . '/lang/');
@@ -195,7 +195,7 @@ if (in_array('woocommerce/woocommerce.php', (array) get_option('active_plugins')
 										'type' => 'checkbox',
 										'label' => __( 'Enable logging', 'woocommerce' ),
 										'default' => 'no',
-										'description' => sprintf( __( 'Log plugin events, such as callback requests, inside <code>woocommerce/logs/multibanco_ifthen_for_woocommerce-%s.txt</code>', 'multibanco_ifthen_for_woocommerce' ), sanitize_file_name( wp_hash( $this->id ) ) ),
+										'description' => sprintf( __( 'Log plugin events, such as callback requests, inside <code>%s</code>', 'multibanco_ifthen_for_woocommerce' ), wc_get_log_file_path($this->id) ),
 									),
 						'debug_email' => array(
 										'title' => __( 'Debug to email', 'multibanco_ifthen_for_woocommerce' ),
@@ -250,6 +250,14 @@ if (in_array('woocommerce/woocommerce.php', (array) get_option('active_plugins')
 						}
 					</style>
 					<?php
+				}
+
+				/**
+				 * Icon HTML
+				 */
+				public function get_icon() {
+					$icon_html .= '<img src="'.esc_attr($this->icon).'" alt="'.esc_attr($this->title).'" />';
+					return apply_filters('woocommerce_gateway_icon', $icon_html, $this->id);
 				}
 
 				/**

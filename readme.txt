@@ -4,8 +4,8 @@ Tags: woocommerce, payment, multibanco, ecommerce, e-commerce, ifthen, ifthen so
 Author URI: http://www.webdados.pt
 Plugin URI: http://www.webdados.pt/produtos-e-servicos/internet/desenvolvimento-wordpress/multibanco-ifthen-software-gateway-woocommerce-wordpress/
 Requires at least: 3.8
-Tested up to: 4.0.1
-Stable tag: 1.6
+Tested up to: 4.2.2
+Stable tag: 1.6.1
 
 This plugin allows Portuguese costumers to pay WooCommerce orders with Multibanco (Pag. Serviços), using the IfthenPay gateway.
 
@@ -47,6 +47,12 @@ Tell them to change the callback URL from `http://yourwebsite/wc-api/WC_Multiban
 Yes you can! But you have to know your way around WordPress filters. There are two filters to do this and you can find examples of them inside `filters_examples.php`
 
 == Changelog ==
+
+= 1.6.1 =
+* It's now possible to change the payment gateway icon html using the `woocommerce_gateway_icon` filter. See filters_examples.php
+* Fix: Debug log path.
+* Fix: `multibanco_ifthen_thankyou_instructions_table_html` filter example had an error
+* Minor Portuguese translation tweaks.
 
 = 1.6 =
 * It's now possible to decide either to reduce stock when the payment is confirmed via callback (default) or when the order is placed by the client. On the first case you don't have to fix the stock if the order is never paid but you'll also not have the quantity reserved for this order. On the second case you'll have to manually fix the stock if the order is never paid.

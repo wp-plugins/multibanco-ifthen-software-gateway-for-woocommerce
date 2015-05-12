@@ -128,8 +128,7 @@ msgstr ""
 
 #: multibanco_ifthen_for_woocommerce.php:187
 msgid ""
-"Log plugin events, such as callback requests, inside <code>woocommerce/logs/"
-"multibanco_ifthen_for_woocommerce-%s.txt</code>"
+"Log plugin events, such as callback requests, inside <code>%s</code>"
 msgstr ""
 
 #: multibanco_ifthen_for_woocommerce.php:190
