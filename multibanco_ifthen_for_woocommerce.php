@@ -3,7 +3,7 @@
  * Plugin Name: Multibanco (IfthenPay gateway) for WooCommerce
  * Plugin URI: http://www.webdados.pt/produtos-e-servicos/internet/desenvolvimento-wordpress/multibanco-ifthen-software-gateway-woocommerce-wordpress/
  * Description: This plugin allows Portuguese costumers to pay WooCommerce orders with Multibanco (Pag. Serviços), using the IfthenPay gateway.
- * Version: 1.6.1
+ * Version: 1.6.2
  * Author: Webdados
  * Author URI: http://www.webdados.pt
  * Text Domain: multibanco_ifthen_for_woocommerce
@@ -53,7 +53,7 @@ if (in_array('woocommerce/woocommerce.php', (array) get_option('active_plugins')
 					if ($this->debug) $this->log = new WC_Logger();
 					$this->debug_email = $this->get_option('debug_email');
 					
-					$this->version = '1.6.1';
+					$this->version = '1.6.2';
 					$this->upgrade();
 
 					load_plugin_textdomain('multibanco_ifthen_for_woocommerce', false, dirname(plugin_basename(__FILE__)) . '/lang/');
@@ -83,6 +83,7 @@ if (in_array('woocommerce/woocommerce.php', (array) get_option('active_plugins')
 			 
 					// Actions and filters
 					add_action('woocommerce_update_options_payment_gateways_'.$this->id, array($this, 'process_admin_options'));
+					if (function_exists('icl_object_id')) add_action('woocommerce_update_options_payment_gateways_' . $this->id, array($this, 'register_wpml_strings'));
 					add_action('woocommerce_thankyou_'.$this->id, array($this, 'thankyou'));
 					add_filter('woocommerce_available_payment_gateways', array($this, 'disable_unless_portugal'));
 					add_filter('woocommerce_available_payment_gateways', array($this, 'disable_only_above_or_bellow'));
@@ -110,6 +111,19 @@ if (in_array('woocommerce/woocommerce.php', (array) get_option('active_plugins')
 						$temp['version']=$this->version;
 						update_option('woocommerce_multibanco_ifthen_for_woocommerce_settings', $temp);
 						if ($this->debug) $this->log->add($this->id, 'Upgrade to '.$this->version.' finished');
+					}
+				}
+
+				/**
+				 * WPML compatibility
+				 */
+				function register_wpml_strings() {
+					$to_register=array(
+						'title',
+						'description',
+					);
+					foreach($to_register as $string) {
+						icl_register_string($this->id, $this->id.'_'.$string, $this->settings[$string]);
 					}
 				}
 
@@ -256,7 +270,7 @@ if (in_array('woocommerce/woocommerce.php', (array) get_option('active_plugins')
 				 * Icon HTML
 				 */
 				public function get_icon() {
-					$icon_html .= '<img src="'.esc_attr($this->icon).'" alt="'.esc_attr($this->title).'" />';
+					$icon_html = '<img src="'.esc_attr($this->icon).'" alt="'.esc_attr($this->title).'" />';
 					return apply_filters('woocommerce_gateway_icon', $icon_html, $this->id);
 				}
 
