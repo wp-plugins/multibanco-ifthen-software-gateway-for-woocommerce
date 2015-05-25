@@ -5,7 +5,7 @@ Author URI: http://www.webdados.pt
 Plugin URI: http://www.webdados.pt/produtos-e-servicos/internet/desenvolvimento-wordpress/multibanco-ifthen-software-gateway-woocommerce-wordpress/
 Requires at least: 3.8
 Tested up to: 4.2.2
-Stable tag: 1.6.2
+Stable tag: 1.6.2.1
 
 This plugin allows Portuguese costumers to pay WooCommerce orders with Multibanco (Pag. Serviços), using the IfthenPay gateway.
 
@@ -47,6 +47,9 @@ Tell them to change the callback URL from `http://yourwebsite/wc-api/WC_Multiban
 Yes you can! But you have to know your way around WordPress filters. There are two filters to do this and you can find examples of them inside `filters_examples.php`
 
 == Changelog ==
+
+= 1.6.2.1 =
+* Fixes a fatal error if WPML String Translation plugin is not active
 
 = 1.6.2 =
 * WPML compatibility: You can now set the english title and description at the plugin's settings page and then go to WPML > String Translation to set the same for each language

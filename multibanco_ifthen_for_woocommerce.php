@@ -3,7 +3,7 @@
  * Plugin Name: Multibanco (IfthenPay gateway) for WooCommerce
  * Plugin URI: http://www.webdados.pt/produtos-e-servicos/internet/desenvolvimento-wordpress/multibanco-ifthen-software-gateway-woocommerce-wordpress/
  * Description: This plugin allows Portuguese costumers to pay WooCommerce orders with Multibanco (Pag. Serviços), using the IfthenPay gateway.
- * Version: 1.6.2
+ * Version: 1.6.2.1
  * Author: Webdados
  * Author URI: http://www.webdados.pt
  * Text Domain: multibanco_ifthen_for_woocommerce
@@ -53,7 +53,7 @@ if (in_array('woocommerce/woocommerce.php', (array) get_option('active_plugins')
 					if ($this->debug) $this->log = new WC_Logger();
 					$this->debug_email = $this->get_option('debug_email');
 					
-					$this->version = '1.6.2';
+					$this->version = '1.6.2.1';
 					$this->upgrade();
 
 					load_plugin_textdomain('multibanco_ifthen_for_woocommerce', false, dirname(plugin_basename(__FILE__)) . '/lang/');
@@ -83,7 +83,7 @@ if (in_array('woocommerce/woocommerce.php', (array) get_option('active_plugins')
 			 
 					// Actions and filters
 					add_action('woocommerce_update_options_payment_gateways_'.$this->id, array($this, 'process_admin_options'));
-					if (function_exists('icl_object_id')) add_action('woocommerce_update_options_payment_gateways_' . $this->id, array($this, 'register_wpml_strings'));
+					if (function_exists('icl_object_id') && function_exists('icl_register_string')) add_action('woocommerce_update_options_payment_gateways_' . $this->id, array($this, 'register_wpml_strings'));
 					add_action('woocommerce_thankyou_'.$this->id, array($this, 'thankyou'));
 					add_filter('woocommerce_available_payment_gateways', array($this, 'disable_unless_portugal'));
 					add_filter('woocommerce_available_payment_gateways', array($this, 'disable_only_above_or_bellow'));
