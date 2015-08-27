@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: Multibanco (IfthenPay gateway) for WooCommerce v1.6\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/support/plugin/multibanco-ifthen-"
 "software-gateway-for-woocommerce\n"
-"POT-Creation-Date: 2014-10-29 14:29:13+00:00\n"
-"PO-Revision-Date: 2015-05-12 15:46-0000\n"
+"POT-Creation-Date: 2015-08-27 18:19+0100\n"
+"PO-Revision-Date: 2015-08-27 18:21+0100\n"
 "Last-Translator: Wonderm00n <wonderm00n@gmail.com>\n"
 "Language-Team: Wonderm00n <wonderm00n@gmail.com>\n"
 "Language: pt_PT\n"
@@ -12,41 +12,40 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Poedit 1.7.5\n"
+"X-Generator: Poedit 1.8.4\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-KeywordsList: __;_e;__ngettext:1,2;_n:1,2;__ngettext_noop:1,2;"
 "_n_noop:1,2;_c,_nc:4c,1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2\n"
-"X-Poedit-Basepath: ../\n"
+"X-Poedit-Basepath: ..\n"
 "X-Textdomain-Support: yes\n"
 "X-Poedit-SearchPath-0: .\n"
 
-# @ multibanco_ifthen_for_woocommerce
-#: multibanco_ifthen_for_woocommerce.php:63
-msgid "Pagamento de Serviços no Multibanco (Ifthen)"
-msgstr "Pagamento de Serviços no Multibanco (Ifthen)"
+#: multibanco_ifthen_for_woocommerce.php:102
+msgid "Pagamento de Serviços no Multibanco (IfthenPay)"
+msgstr "Pagamento de Serviços no Multibanco (IfthenPay)"
 
 # @ multibanco_ifthen_for_woocommerce
-#: multibanco_ifthen_for_woocommerce.php:131
+#: multibanco_ifthen_for_woocommerce.php:200
 msgid "Enable \"Pagamento de Serviços no Multibanco\" (using IfthenPay)"
 msgstr "Activar \"Pagamento de Serviços no Multibanco\" (utilizando IfthenPay)"
 
 # @ multibanco_ifthen_for_woocommerce
-#: multibanco_ifthen_for_woocommerce.php:135
+#: multibanco_ifthen_for_woocommerce.php:204
 msgid "Only for Portuguese customers?"
 msgstr "Apenas para clientes de Portugal?"
 
 # @ multibanco_ifthen_for_woocommerce
-#: multibanco_ifthen_for_woocommerce.php:137
+#: multibanco_ifthen_for_woocommerce.php:206
 msgid "Enable only for customers whose address is in Portugal"
 msgstr "Activar apenas para clientes cuja morada seja em Portugal"
 
 # @ multibanco_ifthen_for_woocommerce
-#: multibanco_ifthen_for_woocommerce.php:141
+#: multibanco_ifthen_for_woocommerce.php:210
 msgid "Only for orders above"
 msgstr "Apenas para encomendas acima de"
 
 # @ multibanco_ifthen_for_woocommerce
-#: multibanco_ifthen_for_woocommerce.php:143
+#: multibanco_ifthen_for_woocommerce.php:212
 msgid ""
 "Enable only for orders above x &euro; (exclusive). Leave blank (or zero) to "
 "allow for any order value."
@@ -54,8 +53,8 @@ msgstr ""
 "Activar apenas para encomendas acima de x &euro; (exclusive). Deixe em "
 "branco (ou zero) para activar para qualquer valor de encomenda."
 
-#: multibanco_ifthen_for_woocommerce.php:143
-#: multibanco_ifthen_for_woocommerce.php:149
+#: multibanco_ifthen_for_woocommerce.php:212
+#: multibanco_ifthen_for_woocommerce.php:218
 msgid ""
 "By design, Mulitibanco only allows payments from 1 to 999999 &euro; "
 "(inclusive). You can use this option to further limit this range."
@@ -64,24 +63,13 @@ msgstr ""
 "(inclusivé). Pode utilizar esta opção para limitar ainda mais este intervalo "
 "de valores"
 
-#: multibanco_ifthen_for_woocommerce.php:154
-msgid "Reduce stock"
-msgstr "Reduzir stock"
-
-#: multibanco_ifthen_for_woocommerce.php:156
-msgid "Choose when to reduce stock."
-msgstr "Escolha quando reduzir o stock."
-
-#: multibanco_ifthen_for_woocommerce.php:159
-msgid "when order is paid (requires active callback)"
-msgstr "quando a encomenda é paga (requer 'callback' activo)"
-
-#: multibanco_ifthen_for_woocommerce.php:160
-msgid "when order is placed (before payment)"
-msgstr "quando a encomenda é colocada (antes do pagamento)"
+# @ multibanco_ifthen_for_woocommerce
+#: multibanco_ifthen_for_woocommerce.php:216
+msgid "Only for orders bellow"
+msgstr "Apenas para encomendas abaixo de"
 
 # @ multibanco_ifthen_for_woocommerce
-#: multibanco_ifthen_for_woocommerce.php:149
+#: multibanco_ifthen_for_woocommerce.php:218
 msgid ""
 "Enable only for orders bellow x &euro; (exclusive). Leave blank (or zero) to "
 "allow for any order value."
@@ -89,37 +77,48 @@ msgstr ""
 "Activar apenas para encomendas abaixo de x &euro; (exclusive). Deixe em "
 "branco (ou zero) para activar para qualquer valor de encomenda."
 
-# @ multibanco_ifthen_for_woocommerce
-#: multibanco_ifthen_for_woocommerce.php:154
-msgid "Only for orders bellow"
-msgstr "Apenas para encomendas abaixo de"
+#: multibanco_ifthen_for_woocommerce.php:222
+msgid "Reduce stock"
+msgstr "Reduzir stock"
+
+#: multibanco_ifthen_for_woocommerce.php:224
+msgid "Choose when to reduce stock."
+msgstr "Escolha quando reduzir o stock."
+
+#: multibanco_ifthen_for_woocommerce.php:227
+msgid "when order is paid (requires active callback)"
+msgstr "quando a encomenda é paga (requer 'callback' activo)"
+
+#: multibanco_ifthen_for_woocommerce.php:228
+msgid "when order is placed (before payment)"
+msgstr "quando a encomenda é colocada (antes do pagamento)"
 
 # @ multibanco_ifthen_for_woocommerce
-#: multibanco_ifthen_for_woocommerce.php:156
+#: multibanco_ifthen_for_woocommerce.php:235
 msgid "Pagamento de Serviços no Multibanco"
 msgstr "Pagamento de Serviços no Multibanco"
 
-# @ multibanco_ifthen_for_woocommerce
-#: multibanco_ifthen_for_woocommerce.php:162
+#: multibanco_ifthen_for_woocommerce.php:241
 msgid ""
 "Easy and simple payment using \"Pagamento de Serviços\" at any \"Multibanco"
 "\" ATM terminal or your Home Banking service. (Only available to customers "
-"of Portuguese banks)"
+"of Portuguese banks. Payment service provided by IfthenPay.)"
 msgstr ""
 "\"Pagamento de Serviços\", com entidade e referência, em qualquer caixa "
 "Multibanco ou através do seu serviço de homebanking. (Apenas disponível para "
-"clientes de bancos Portugueses)"
+"clientes de bancos Portugueses. Serviço de pagamento prestado pela "
+"IfthenPay.)"
 
 # @ multibanco_ifthen_for_woocommerce
-#: multibanco_ifthen_for_woocommerce.php:165
-#: multibanco_ifthen_for_woocommerce.php:284
-#: multibanco_ifthen_for_woocommerce.php:330
-#: multibanco_ifthen_for_woocommerce.php:638
+#: multibanco_ifthen_for_woocommerce.php:244
+#: multibanco_ifthen_for_woocommerce.php:427
+#: multibanco_ifthen_for_woocommerce.php:490
+#: multibanco_ifthen_for_woocommerce.php:868
 msgid "Entity"
 msgstr "Entidade"
 
 # @ multibanco_ifthen_for_woocommerce
-#: multibanco_ifthen_for_woocommerce.php:167
+#: multibanco_ifthen_for_woocommerce.php:246
 msgid ""
 "Entity provided by IfthenPay when signing the contract. (E.g.: 10559, 11202, "
 "11473, 11604)"
@@ -128,24 +127,24 @@ msgstr ""
 "10559, 11202, 11473, 11604)"
 
 # @ multibanco_ifthen_for_woocommerce
-#: multibanco_ifthen_for_woocommerce.php:171
+#: multibanco_ifthen_for_woocommerce.php:250
 msgid "Subentity"
 msgstr "Subentidade"
 
 # @ multibanco_ifthen_for_woocommerce
-#: multibanco_ifthen_for_woocommerce.php:173
+#: multibanco_ifthen_for_woocommerce.php:252
 msgid "Subentity provided by IfthenPay when signing the contract. (E.g.: 999)"
 msgstr ""
 "Subentidade fornecida pela IfthenPay aquando da assinatura do contrato. "
 "(Ex.: 999)"
 
 # @ multibanco_ifthen_for_woocommerce
-#: multibanco_ifthen_for_woocommerce.php:177
+#: multibanco_ifthen_for_woocommerce.php:256
 msgid "Anti-phishing key"
 msgstr "Chave <i>Anti-phishing</i>"
 
 # @ multibanco_ifthen_for_woocommerce
-#: multibanco_ifthen_for_woocommerce.php:179
+#: multibanco_ifthen_for_woocommerce.php:258
 msgid ""
 "To ensure callback security, generated by the system and that must be "
 "provided to IfthenPay when asking for the callback activation."
@@ -153,42 +152,59 @@ msgstr ""
 "Para garantir a segurança do <i>callback</i>, gerada pelo sistema e que tem "
 "de ser fornecida à IfthenPay no pedido de activação do <i>callback</i>."
 
-#: multibanco_ifthen_for_woocommerce.php:187
+#: multibanco_ifthen_for_woocommerce.php:266
 msgid "Log plugin events, such as callback requests, inside <code>%s</code>"
 msgstr ""
 "Efectuar log dos eventos do plugin, como chamadas de <i>callback</i> em "
 "<code>%s</code>"
 
 # @ multibanco_ifthen_for_woocommerce
-#: multibanco_ifthen_for_woocommerce.php:190
+#: multibanco_ifthen_for_woocommerce.php:269
 msgid "Debug to email"
 msgstr "Log de depuração para email"
 
 # @ multibanco_ifthen_for_woocommerce
-#: multibanco_ifthen_for_woocommerce.php:192
+#: multibanco_ifthen_for_woocommerce.php:271
 msgid "Enable email logging"
 msgstr "Ativar logs para email"
 
 # @ multibanco_ifthen_for_woocommerce
-#: multibanco_ifthen_for_woocommerce.php:194
+#: multibanco_ifthen_for_woocommerce.php:273
 msgid "Send plugin events to this email address, such as callback requests."
 msgstr ""
 "Enviar log dos eventos do plugin para este endereço de email, como chamadas "
 "de <i>callback</i>"
 
+#: multibanco_ifthen_for_woocommerce.php:283
+msgid "Commercial information"
+msgstr "Informação comercial"
+
+#: multibanco_ifthen_for_woocommerce.php:284
+#: multibanco_ifthen_for_woocommerce.php:286
+msgid "Please contact %s"
+msgstr "Por favor contactar %s"
+
+#: multibanco_ifthen_for_woocommerce.php:285
+msgid "Technical support or custom WordPress / WooCommerce development"
+msgstr "Suporte técnico ou desenvolvimento WordPress / WooCommerce à medida"
+
+#: multibanco_ifthen_for_woocommerce.php:287
+msgid "Please rate our plugin at WordPress.org"
+msgstr "Por favor classifique o nosso plugin no WordPress.org"
+
 # @ multibanco_ifthen_for_woocommerce
-#: multibanco_ifthen_for_woocommerce.php:203
+#: multibanco_ifthen_for_woocommerce.php:295
 msgid "In order to use this plugin you <u>must</u>:"
 msgstr "Para utilizar este plugin <u>tem de</u>:"
 
 # @ multibanco_ifthen_for_woocommerce
-#: multibanco_ifthen_for_woocommerce.php:205
-#: multibanco_ifthen_for_woocommerce.php:227
+#: multibanco_ifthen_for_woocommerce.php:297
+#: multibanco_ifthen_for_woocommerce.php:318
 msgid "Set WooCommerce currency to <b>Euros (&euro;)</b> %1$s"
 msgstr "Configurar a moeda do WooCommerce para <b>Euros (&euro;)</b> %1$s"
 
 # @ multibanco_ifthen_for_woocommerce
-#: multibanco_ifthen_for_woocommerce.php:206
+#: multibanco_ifthen_for_woocommerce.php:298
 msgid ""
 "Sign a contract with %1$s. To get more informations on this service go to "
 "%2$s."
@@ -197,7 +213,7 @@ msgstr ""
 "vá a %2$s."
 
 # @ multibanco_ifthen_for_woocommerce
-#: multibanco_ifthen_for_woocommerce.php:207
+#: multibanco_ifthen_for_woocommerce.php:299
 msgid ""
 "Ask IfthenPay to activate \"Callback\" on your account using this exact URL: "
 "%1$s and this Anti-phishing key: %2$s"
@@ -206,7 +222,7 @@ msgstr ""
 "utilizando exactamente este URL: %1$s e esta chave <i>Anti-phishing</i>: %2$s"
 
 # @ multibanco_ifthen_for_woocommerce
-#: multibanco_ifthen_for_woocommerce.php:208
+#: multibanco_ifthen_for_woocommerce.php:300
 msgid ""
 "Fill in all details (entity and subentity) provided by <b>IfthenPay</b> on "
 "the fields bellow."
@@ -215,97 +231,89 @@ msgstr ""
 "<b>IfthenPay</b> nos campos em baixo."
 
 # @ multibanco_ifthen_for_woocommerce
-#: multibanco_ifthen_for_woocommerce.php:210
-msgid ""
-"Please be aware that this is not an official plugin by <b>IfthenPay</b>. Do "
-"not ask them for support on using it. Please refer to %1$s for technical "
-"support."
-msgstr ""
-"Tenha em atenção que este não é um plugin oficial da <b>IfthenPay</b>. Não "
-"lhes solicite suporte na sua utilização. Contacte a %1$s para suporte "
-"técnico."
-
-#: multibanco_ifthen_for_woocommerce.php:210
-msgid ""
-"You can also contact us if you need WordPress/WooCommerce payment gateway, "
-"automatic invoicing or any other custom developments."
-msgstr ""
-"Também nos pode contactar se necessitar de desenvolvimento à medida para "
-"WordPress/WooCommerce, como gateways de pagamentos, facturação automática ou "
-"qualquer outra funcionalidade específica."
-
-# @ multibanco_ifthen_for_woocommerce
-#: multibanco_ifthen_for_woocommerce.php:227
+#: multibanco_ifthen_for_woocommerce.php:318
 msgid "ERROR!"
 msgstr "ERRO!"
 
-#: multibanco_ifthen_for_woocommerce.php:227
+#: multibanco_ifthen_for_woocommerce.php:318
 msgid "here"
 msgstr "aqui"
 
-# @ multibanco_ifthen_for_woocommerce
-#: multibanco_ifthen_for_woocommerce.php:275
-#: multibanco_ifthen_for_woocommerce.php:321
-msgid "Payment instructions"
-msgstr "Instruções de pagamento"
-
-# @ multibanco_ifthen_for_woocommerce
-#: multibanco_ifthen_for_woocommerce.php:288
-#: multibanco_ifthen_for_woocommerce.php:334
-#: multibanco_ifthen_for_woocommerce.php:639
-msgid "Reference"
-msgstr "Referência"
-
-# @ multibanco_ifthen_for_woocommerce
-#: multibanco_ifthen_for_woocommerce.php:292
-#: multibanco_ifthen_for_woocommerce.php:338
-#: multibanco_ifthen_for_woocommerce.php:640
-msgid "Value"
-msgstr "Valor"
-
-# @ multibanco_ifthen_for_woocommerce
-#: multibanco_ifthen_for_woocommerce.php:296
-#: multibanco_ifthen_for_woocommerce.php:342
-msgid "The receipt issued by the ATM machine is a proof of payment. Keep it."
-msgstr ""
-"O recibo emitido pelo terminal Multibanco é prova de pagamento. Guarde-o."
-
-#: multibanco_ifthen_for_woocommerce.php:300
-#: multibanco_ifthen_for_woocommerce.php:346
+#: multibanco_ifthen_for_woocommerce.php:388
+#: multibanco_ifthen_for_woocommerce.php:460
 msgid "Error getting Multibanco payment details"
 msgstr "Erro ao obter os dados de pagamento via Multibanco"
 
 # @ multibanco_ifthen_for_woocommerce
-#: multibanco_ifthen_for_woocommerce.php:355
-#: multibanco_ifthen_for_woocommerce.php:576
+#: multibanco_ifthen_for_woocommerce.php:421
+#: multibanco_ifthen_for_woocommerce.php:484
+msgid "Payment instructions"
+msgstr "Instruções de pagamento"
+
+# @ multibanco_ifthen_for_woocommerce
+#: multibanco_ifthen_for_woocommerce.php:431
+#: multibanco_ifthen_for_woocommerce.php:494
+#: multibanco_ifthen_for_woocommerce.php:869
+msgid "Reference"
+msgstr "Referência"
+
+# @ multibanco_ifthen_for_woocommerce
+#: multibanco_ifthen_for_woocommerce.php:435
+#: multibanco_ifthen_for_woocommerce.php:498
+#: multibanco_ifthen_for_woocommerce.php:870
+msgid "Value"
+msgstr "Valor"
+
+# @ multibanco_ifthen_for_woocommerce
+#: multibanco_ifthen_for_woocommerce.php:439
+#: multibanco_ifthen_for_woocommerce.php:502
+msgid "The receipt issued by the ATM machine is a proof of payment. Keep it."
+msgstr ""
+"O recibo emitido pelo terminal Multibanco é prova de pagamento. Guarde-o."
+
+# @ multibanco_ifthen_for_woocommerce
+#: multibanco_ifthen_for_woocommerce.php:467
+#: multibanco_ifthen_for_woocommerce.php:805
 msgid "Multibanco payment received."
 msgstr "Pagamento por Multibanco recebido."
 
 # @ multibanco_ifthen_for_woocommerce
-#: multibanco_ifthen_for_woocommerce.php:355
+#: multibanco_ifthen_for_woocommerce.php:467
 msgid "We will now process your order."
 msgstr "Iremos agora processar a sua encomenda."
 
+#: multibanco_ifthen_for_woocommerce.php:522
+msgid "Ent"
+msgstr "Ent"
+
+#: multibanco_ifthen_for_woocommerce.php:526
+msgid "Ref"
+msgstr "Ref"
+
+#: multibanco_ifthen_for_woocommerce.php:529
+msgid "Val"
+msgstr "Val"
+
 # @ multibanco_ifthen_for_woocommerce
-#: multibanco_ifthen_for_woocommerce.php:371
+#: multibanco_ifthen_for_woocommerce.php:564
 msgid "Awaiting Multibanco payment."
 msgstr "A aguardar pagamento por Multibanco."
 
 # @ multibanco_ifthen_for_woocommerce
-#: multibanco_ifthen_for_woocommerce.php:438
+#: multibanco_ifthen_for_woocommerce.php:631
 msgid "It's not possible to use Multibanco to pay values under 1&euro;."
 msgstr ""
 "Não é possivel utilizar o Multibanco para pagar valores abaixo de 1&euro;."
 
 # @ multibanco_ifthen_for_woocommerce
-#: multibanco_ifthen_for_woocommerce.php:442
+#: multibanco_ifthen_for_woocommerce.php:635
 msgid "It's not possible to use Multibanco to pay values above 999999&euro;."
 msgstr ""
 "Não é possivel utilizar o Multibanco para pagar valores acima de "
 "999999&euro;."
 
 # @ multibanco_ifthen_for_woocommerce
-#: multibanco_ifthen_for_woocommerce.php:457
+#: multibanco_ifthen_for_woocommerce.php:650
 msgid ""
 "Configuration error. This payment method is disabled because required "
 "information was not set."
@@ -314,12 +322,12 @@ msgstr ""
 "configurações obrigatórias não foram efectuadas."
 
 # @ multibanco_ifthen_for_woocommerce
-#: multibanco_ifthen_for_woocommerce.php:463
+#: multibanco_ifthen_for_woocommerce.php:656
 msgid "Configuration error. This store currency is not Euros (&euro;)."
 msgstr "Erro de configuração. A moeda desta loja não é Euros (&euro;)."
 
 # @ multibanco_ifthen_for_woocommerce
-#: multibanco_ifthen_for_woocommerce.php:574
+#: multibanco_ifthen_for_woocommerce.php:801
 msgid ""
 "Temporary status. Used to force an email on the next order status change."
 msgstr ""
@@ -327,12 +335,51 @@ msgstr ""
 "estado."
 
 # @ multibanco_ifthen_for_woocommerce
-#: multibanco_ifthen_for_woocommerce.php:628
+#: multibanco_ifthen_for_woocommerce.php:858
 msgid "Multibanco payment details"
 msgstr "Detalhes de pagamento por Multibanco"
 
+#: multibanco_ifthen_for_woocommerce.php:881
+msgid "Callback URL"
+msgstr "URL de <i>Callback</i>"
+
+#: multibanco_ifthen_for_woocommerce.php:887
+msgid ""
+"This is a testing tool and will set the order as paid. Are you sure you want "
+"to proceed?"
+msgstr ""
+"Isto é uma ferramenta de testes e vai marcar a encomenda como paga. Tem a "
+"certeza que deseja proceder?"
+
+#: multibanco_ifthen_for_woocommerce.php:890
+msgid ""
+"Success: The order is now set as paid and processing. This page will now "
+"reload."
+msgstr ""
+"Sucesso: A encomenda foi agora marcada como paga e em processamento. Esta "
+"página vai ser recarregada."
+
+#: multibanco_ifthen_for_woocommerce.php:893
+#: multibanco_ifthen_for_woocommerce.php:896
+msgid "Error: Could not set the order as paid"
+msgstr "Erro: Não foi possível marcar a encomenda como paga"
+
+#: multibanco_ifthen_for_woocommerce.php:903
+msgid "Simulate callback payment"
+msgstr "Simular pagamento por callback"
+
+#: multibanco_ifthen_for_woocommerce.php:899
+msgid ""
+"This page will now reload. If the order is not set as paid and processing "
+"(or completed, if it only contains virtual and downloadable products) please "
+"check the debug logs."
+msgstr ""
+"Esta página vai agora recarregar. Se a encomenda não for marcada como paga e "
+"em processamento (ou concluída, se apenas contém produtos virtuais e para "
+"download) por favor veja os logs."
+
 # @ multibanco_ifthen_for_woocommerce
-#: multibanco_ifthen_for_woocommerce.php:642
+#: multibanco_ifthen_for_woocommerce.php:908
 msgid "No details available"
 msgstr "Sem detalhes disponíveis"
 
@@ -345,6 +392,38 @@ msgstr ""
 "Este plugin permite que clientes Portugueses paguem encomendas do "
 "WooCommerce através de Pagamento de Serviços no Multibanco, utilizando a "
 "gateway da IfthenPay."
+
+# @ multibanco_ifthen_for_woocommerce
+#~ msgid ""
+#~ "Please be aware that this is not an official plugin by <b>IfthenPay</b>. "
+#~ "Do not ask them for support on using it. Please refer to %1$s for "
+#~ "technical support."
+#~ msgstr ""
+#~ "Tenha em atenção que este não é um plugin oficial da <b>IfthenPay</b>. "
+#~ "Não lhes solicite suporte na sua utilização. Contacte a %1$s para suporte "
+#~ "técnico."
+
+# @ multibanco_ifthen_for_woocommerce
+#~ msgid "Pagamento de Serviços no Multibanco (Ifthen)"
+#~ msgstr "Pagamento de Serviços no Multibanco (Ifthen)"
+
+# @ multibanco_ifthen_for_woocommerce
+#~ msgid ""
+#~ "Easy and simple payment using \"Pagamento de Serviços\" at any "
+#~ "\"Multibanco\" ATM terminal or your Home Banking service. (Only available "
+#~ "to customers of Portuguese banks)"
+#~ msgstr ""
+#~ "\"Pagamento de Serviços\", com entidade e referência, em qualquer caixa "
+#~ "Multibanco ou através do seu serviço de homebanking. (Apenas disponível "
+#~ "para clientes de bancos Portugueses)"
+
+#~ msgid ""
+#~ "You can also contact us if you need WordPress/WooCommerce payment "
+#~ "gateway, automatic invoicing or any other custom developments."
+#~ msgstr ""
+#~ "Também nos pode contactar se necessitar de desenvolvimento à medida para "
+#~ "WordPress/WooCommerce, como gateways de pagamentos, facturação automática "
+#~ "ou qualquer outra funcionalidade específica."
 
 # @ multibanco_ifthen_for_woocommerce
 #~ msgid ""

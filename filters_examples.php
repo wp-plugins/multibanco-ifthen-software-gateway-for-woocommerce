@@ -34,6 +34,12 @@ function my_multibanco_ifthen_thankyou_instructions_table_html($html, $ent, $ref
 	return ob_get_clean();
 }
 
+// Multibanco IfThen - SMS Instructions filter
+add_filter('multibanco_ifthen_sms_instructions', 'my_multibanco_ifthen_sms_instructions', 1, 4);
+function my_multibanco_ifthen_sms_instructions($html, $ref, $ent, $order_total) {
+	return 'Ent. '.$ent.' Ref. '.$ref.' Val. '.$order_total;
+}
+
 // Multibanco IfThen - Change the icon html
 add_filter('woocommerce_gateway_icon', 'my_woocommerce_gateway_icon', 1, 2);
 function my_woocommerce_gateway_icon($html, $id) {
