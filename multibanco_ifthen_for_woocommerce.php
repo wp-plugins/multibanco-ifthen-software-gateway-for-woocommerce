@@ -281,9 +281,9 @@ if (in_array('woocommerce/woocommerce.php', (array) get_option('active_plugins')
 					<div id="wc_ifthen">
 						<div id="wc_ifthen_rightbar">
 							<h4><?php _e('Commercial information', 'multibanco_ifthen_for_woocommerce'); ?>:</h4>
-							<p><a href="https://www.ifthensoftware.com/ProdutoX.aspx?ProdID=5" title="<?php echo esc_attr(sprintf(__('Please contact %s', 'multibanco_ifthen_for_woocommerce'), 'IfthenPay')); ?>" target="_blank"><img src="<?php echo plugins_url('images/ifthenpay_logo_400px.png', __FILE__); ?>" width="200"/></a></p>
+							<p><a href="https://www.ifthensoftware.com/ProdutoX.aspx?ProdID=5" title="<?php echo esc_attr(sprintf(__('Please contact %s', 'multibanco_ifthen_for_woocommerce'), 'IfthenPay')); ?>" target="_blank"><img src="<?php echo plugins_url('images/ifthenpay.png', __FILE__); ?>" width="200"/></a></p>
 							<h4><?php _e('Technical support or custom WordPress / WooCommerce development', 'multibanco_ifthen_for_woocommerce'); ?>:</h4>
-							<p><a href="http://www.webdados.pt/contactos/" title="<?php echo esc_attr(sprintf(__('Please contact %s', 'multibanco_ifthen_for_woocommerce'), 'Webdados')); ?>" target="_blank"><img src="<?php echo plugins_url('images/logo_webdados_horizontal_600.png', __FILE__); ?>" width="200"/></a></p>
+							<p><a href="http://www.webdados.pt/contactos/" title="<?php echo esc_attr(sprintf(__('Please contact %s', 'multibanco_ifthen_for_woocommerce'), 'Webdados')); ?>" target="_blank"><img src="<?php echo plugins_url('images/webdados.png', __FILE__); ?>" width="200"/></a></p>
 							<h4><?php _e('Please rate our plugin at WordPress.org', 'multibanco_ifthen_for_woocommerce'); ?>:</h4>
 							<a href="https://wordpress.org/support/view/plugin-reviews/multibanco-ifthen-software-gateway-for-woocommerce?filter=5#postform" target="_blank" style="text-align: center; display: block;">
 								<div class="star-rating"><div class="star star-full"></div><div class="star star-full"></div><div class="star star-full"></div><div class="star star-full"></div><div class="star star-full"></div></div>

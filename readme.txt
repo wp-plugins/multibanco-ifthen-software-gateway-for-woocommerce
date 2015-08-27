@@ -71,6 +71,9 @@ For premium/urgent support or custom developments you should contact [http://www
 
 == Changelog ==
 
+= 1.7.0.1 =
+* Uploading missing images
+
 = 1.7 =
 * Official IfthenPay plugin status \o/
 * New "SMS payment instructions" class to be able to integrate with SMS sending plugins in the future
