@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: Multibanco (IfthenPay gateway) for WooCommerce v1.6\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/support/plugin/multibanco-ifthen-"
 "software-gateway-for-woocommerce\n"
-"POT-Creation-Date: 2015-08-27 18:19+0100\n"
-"PO-Revision-Date: 2015-08-27 18:21+0100\n"
+"POT-Creation-Date: 2015-09-03 14:55+0100\n"
+"PO-Revision-Date: 2015-09-03 15:16+0100\n"
 "Last-Translator: Wonderm00n <wonderm00n@gmail.com>\n"
 "Language-Team: Wonderm00n <wonderm00n@gmail.com>\n"
 "Language: pt_PT\n"
@@ -213,15 +213,6 @@ msgstr ""
 "vá a %2$s."
 
 # @ multibanco_ifthen_for_woocommerce
-#: multibanco_ifthen_for_woocommerce.php:299
-msgid ""
-"Ask IfthenPay to activate \"Callback\" on your account using this exact URL: "
-"%1$s and this Anti-phishing key: %2$s"
-msgstr ""
-"Solicitar à IfthenPay a activação do \"<i>Callback</i>\" na sua conta "
-"utilizando exactamente este URL: %1$s e esta chave <i>Anti-phishing</i>: %2$s"
-
-# @ multibanco_ifthen_for_woocommerce
 #: multibanco_ifthen_for_woocommerce.php:300
 msgid ""
 "Fill in all details (entity and subentity) provided by <b>IfthenPay</b> on "
@@ -229,6 +220,46 @@ msgid ""
 msgstr ""
 "Preencher todos os detalhes (entidade and subentidade) fornecidos pela "
 "<b>IfthenPay</b> nos campos em baixo."
+
+# @ multibanco_ifthen_for_woocommerce
+#: multibanco_ifthen_for_woocommerce.php:301
+msgid ""
+"Ask IfthenPay to activate \"Callback\" on your account using this exact URL: "
+"%1$s and this Anti-phishing key: %2$s"
+msgstr ""
+"Solicitar à IfthenPay a activação do \"<i>Callback</i>\" na sua conta "
+"utilizando exactamente este URL: %1$s e esta chave <i>Anti-phishing</i>: %2$s"
+
+#: multibanco_ifthen_for_woocommerce.php:306
+msgid "Click here to ask IfthenPay to activate the \"Callback\""
+msgstr "Clique aqui para solicitar à IfthenPay  activação do <i>Callback</i>"
+
+#: multibanco_ifthen_for_woocommerce.php:308
+msgid ""
+"This will submit a request to IfthenPay asking them to activate the "
+"\"Callback\" on your account. If you have already asked for the \"Callback\" "
+"activation, wait for their feedback before submiting a new request. The "
+"following details will be sent via email to IfthenPay (with CC to your email "
+"address):"
+msgstr ""
+"Esta funcionalidade submeterá um pedido à IfthenPay solicitando a activação "
+"do <i>Callback</i> na sua conta. Se já solicitou a activação, aguarde pela "
+"resposta antes de submeter um novo pedido. Os seguintes detalhes serão "
+"enviados por email para a IfthenPay (com CC para o seu endereço de email):"
+
+#: multibanco_ifthen_for_woocommerce.php:329
+#: multibanco_ifthen_for_woocommerce.php:983
+msgid "Callback URL"
+msgstr "URL de <i>Callback</i>"
+
+#: multibanco_ifthen_for_woocommerce.php:337
+msgid "Ask for Callback activation"
+msgstr "Solicitar activação de Callback"
+
+#: multibanco_ifthen_for_woocommerce.php:366
+msgid "Are you sure you want to ask IfthenPay to activate the \"Callback\"?"
+msgstr ""
+"Tem a certeza que deseja solicitar à IfthenPay para activar o Callback?"
 
 # @ multibanco_ifthen_for_woocommerce
 #: multibanco_ifthen_for_woocommerce.php:318
@@ -239,8 +270,16 @@ msgstr "ERRO!"
 msgid "here"
 msgstr "aqui"
 
-#: multibanco_ifthen_for_woocommerce.php:388
-#: multibanco_ifthen_for_woocommerce.php:460
+#: multibanco_ifthen_for_woocommerce.php:463
+msgid ""
+"The \"Callback\" activation request has been submited to IfthenPay. Wait for "
+"their feedback."
+msgstr ""
+"O pedido de activação do “Callback” foi submetido à IfthenPay. Aguarde pela "
+"resposta."
+
+#: multibanco_ifthen_for_woocommerce.php:486
+#: multibanco_ifthen_for_woocommerce.php:558
 msgid "Error getting Multibanco payment details"
 msgstr "Erro ao obter os dados de pagamento via Multibanco"
 
@@ -339,11 +378,7 @@ msgstr ""
 msgid "Multibanco payment details"
 msgstr "Detalhes de pagamento por Multibanco"
 
-#: multibanco_ifthen_for_woocommerce.php:881
-msgid "Callback URL"
-msgstr "URL de <i>Callback</i>"
-
-#: multibanco_ifthen_for_woocommerce.php:887
+#: multibanco_ifthen_for_woocommerce.php:989
 msgid ""
 "This is a testing tool and will set the order as paid. Are you sure you want "
 "to proceed?"
@@ -364,11 +399,7 @@ msgstr ""
 msgid "Error: Could not set the order as paid"
 msgstr "Erro: Não foi possível marcar a encomenda como paga"
 
-#: multibanco_ifthen_for_woocommerce.php:903
-msgid "Simulate callback payment"
-msgstr "Simular pagamento por callback"
-
-#: multibanco_ifthen_for_woocommerce.php:899
+#: multibanco_ifthen_for_woocommerce.php:997
 msgid ""
 "This page will now reload. If the order is not set as paid and processing "
 "(or completed, if it only contains virtual and downloadable products) please "
@@ -377,6 +408,10 @@ msgstr ""
 "Esta página vai agora recarregar. Se a encomenda não for marcada como paga e "
 "em processamento (ou concluída, se apenas contém produtos virtuais e para "
 "download) por favor veja os logs."
+
+#: multibanco_ifthen_for_woocommerce.php:1007
+msgid "Simulate callback payment"
+msgstr "Simular pagamento por callback"
 
 # @ multibanco_ifthen_for_woocommerce
 #: multibanco_ifthen_for_woocommerce.php:908

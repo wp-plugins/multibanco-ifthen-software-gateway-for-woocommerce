@@ -154,12 +154,33 @@ msgstr ""
 msgid "Sign a contract with %1$s. To get more informations on this service go to %2$s."
 msgstr ""
 
-#: multibanco_ifthen_for_woocommerce.php:299
+#: multibanco_ifthen_for_woocommerce.php:300
+msgid "Fill in all details (entity and subentity) provided by <b>IfthenPay</b> on the fields bellow."
+msgstr ""
+
+#: multibanco_ifthen_for_woocommerce.php:301
 msgid "Ask IfthenPay to activate \"Callback\" on your account using this exact URL: %1$s and this Anti-phishing key: %2$s"
 msgstr ""
 
-#: multibanco_ifthen_for_woocommerce.php:300
-msgid "Fill in all details (entity and subentity) provided by <b>IfthenPay</b> on the fields bellow."
+#: multibanco_ifthen_for_woocommerce.php:306
+msgid "Click here to ask IfthenPay to activate the \"Callback\""
+msgstr ""
+
+#: multibanco_ifthen_for_woocommerce.php:308
+msgid "This will submit a request to IfthenPay asking them to activate the \"Callback\" on your account. If you have already asked for the \"Callback\" activation, wait for their feedback before submiting a new request. The following details will be sent via email to IfthenPay (with CC to your email address):"
+msgstr ""
+
+#: multibanco_ifthen_for_woocommerce.php:329
+#: multibanco_ifthen_for_woocommerce.php:983
+msgid "Callback URL"
+msgstr ""
+
+#: multibanco_ifthen_for_woocommerce.php:337
+msgid "Ask for Callback activation"
+msgstr ""
+
+#: multibanco_ifthen_for_woocommerce.php:366
+msgid "Are you sure you want to ask IfthenPay to activate the \"Callback\"?"
 msgstr ""
 
 #: multibanco_ifthen_for_woocommerce.php:318
@@ -170,8 +191,12 @@ msgstr ""
 msgid "here"
 msgstr ""
 
-#: multibanco_ifthen_for_woocommerce.php:388
-#: multibanco_ifthen_for_woocommerce.php:460
+#: multibanco_ifthen_for_woocommerce.php:463
+msgid "The \"Callback\" activation request has been submited to IfthenPay. Wait for their feedback."
+msgstr ""
+
+#: multibanco_ifthen_for_woocommerce.php:486
+#: multibanco_ifthen_for_woocommerce.php:558
 msgid "Error getting Multibanco payment details"
 msgstr ""
 
@@ -246,11 +271,7 @@ msgstr ""
 msgid "Multibanco payment details"
 msgstr ""
 
-#: multibanco_ifthen_for_woocommerce.php:881
-msgid "Callback URL"
-msgstr ""
-
-#: multibanco_ifthen_for_woocommerce.php:887
+#: multibanco_ifthen_for_woocommerce.php:989
 msgid "This is a testing tool and will set the order as paid. Are you sure you want to proceed?"
 msgstr ""
 
@@ -263,12 +284,12 @@ msgstr ""
 msgid "Error: Could not set the order as paid"
 msgstr ""
 
-#: multibanco_ifthen_for_woocommerce.php:903
-msgid "Simulate callback payment"
+#: multibanco_ifthen_for_woocommerce.php:997
+msgid "This page will now reload. If the order is not set as paid and processing (or completed, if it only contains virtual and downloadable products) please check the debug logs."
 msgstr ""
 
-#: multibanco_ifthen_for_woocommerce.php:899
-msgid "This page will now reload. If the order is not set as paid and processing (or completed, if it only contains virtual and downloadable products) please check the debug logs."
+#: multibanco_ifthen_for_woocommerce.php:1007
+msgid "Simulate callback payment"
 msgstr ""
 
 #: multibanco_ifthen_for_woocommerce.php:908

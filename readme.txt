@@ -5,7 +5,7 @@ Author URI: http://www.webdados.pt
 Plugin URI: http://www.webdados.pt/produtos-e-servicos/internet/desenvolvimento-wordpress/multibanco-ifthen-software-gateway-woocommerce-wordpress/
 Requires at least: 3.8
 Tested up to: 4.3
-Stable tag: 1.7.0.2
+Stable tag: 1.7.2
 
 This plugin allows Portuguese costumers to pay WooCommerce orders with Multibanco (Pag. Serviços), using the IfthenPay payment gateway.
 
@@ -13,14 +13,19 @@ This plugin allows Portuguese costumers to pay WooCommerce orders with Multibanc
 
 "Pagamento de Serviços" (service payment) on Multibanco (the Portuguese ATM network), or on Home Banking services, is the most popular way of paying services and (online) purchases in Portugal. The Portuguese consumer trusts in the "Multibanco" system more than any other.
 
-This plugin will allow you to generate a payment Reference that the customer can then use to pay for his order on the ATM or Home Banking service. This plugin uses one of the several gateways/services available in Portugal, IfthenPay, and a contract with this company is required.
+This plugin will allow you to generate a payment Reference that the customer can then use to pay for his order on the ATM or Home Banking service. This plugin uses one of the several gateways/services available in Portugal, [IfthenPay](http://www.ifthenpay.com), and a contract with this company is required.
 
-This is the official IfthenPay plugin, although the technical support is provided by Webdados.
+This is the official [IfthenPay](http://www.ifthenpay.com) plugin, although the technical support is provided by [Webdados](http://www.webdados.pt).
 
 = Features: =
 
 * Generates a Multibanco Reference for simple payment on the Portuguese ATM or Home Banking service network;
-* Automaticaly changes the order status to "Processing (paid)" and notifies both the costumer and the store owner;
+* Automaticaly changes the order status to "Processing" (or "Completed" if the order only contains virtual dowloadble products) and notifies both the costumer and the store owner, if the automatic "Callback" upon payment is activated, which can be asked to IfthenPay via the plugin settings screen;
+* 3rd party plugin SMS notification integration:
+	* WooCommerce - APG SMS Notifications;
+	* Others to be added by request;
+* It's possible to set minimum and maximum order totals for this payment gateway to be available;
+* Possibility to choose to reduce stock when the order is created or when it's paid;
 * Allows to search orders (on the admin area) by Reference;
 
 
@@ -28,7 +33,8 @@ This is the official IfthenPay plugin, although the technical support is provide
 
 * Use the included automatic install feature on your WordPress admin panel and search for "Multibanco (IfthenPay gateway) for WooCommerce".
 * Go to WooCoomerce > Settings > Checkout > Pagamento de Serviços no Multibanco and fill in the details provided by IfthenPay (Entity and Subentity) in order to be able to use this payment method. A contract with IfthenPay is needed to get these details.
-* Make sure you've asked IfthenPay to activate the "Callback" on their side with the URL and Anti-phishing key provided on the configuration screen.
+* Make sure you've asked IfthenPay to activate the "Callback" on their side with the URL and Anti-phishing key provided on the settings screen. This can now be done via this same screen.
+* Start receiving "pilim".
 
 == Frequently Asked Questions ==
 
@@ -65,11 +71,20 @@ If you don't care about the law, there's plugins that allow to set extra fees pe
 
 = I need technical support. Who should I contact, IfthenPay or Webdados? =
 
-Although this is the official IfthenPay WooCommerce plugin, the development and support is [http://www.webdados.pt](Webdados) responsability.
+Although this is the official IfthenPay WooCommerce plugin, the development and support is [Webdados](http://www.webdados.pt) responsability.
 For free/standard support you should use the support foruns here at WordPress.org
-For premium/urgent support or custom developments you should contact [http://www.webdados.pt/contactos/](Webdados) directly. Charges may (and most certainly will) apply.
+For premium/urgent support or custom developments you should contact [Webdados](http://www.webdados.pt/contactos/) directly. Charges may (and most certainly will) apply.
 
 == Changelog ==
+
+= 1.7.2 =
+* Small changes on the callback validation to better debug possible argument errors
+
+= 1.7.1 =
+* Ask IfthenPay for "Callback" activation directly from the plugin settings screen
+* Settings screen fields re-organization in a more logical order
+* Adjustments in the plugin description and FAQ
+* Minor fix to avoid a PHP Notice on WPML string registration
 
 = 1.7.0.2 =
 * Fixing version numbers
@@ -90,14 +105,14 @@ For premium/urgent support or custom developments you should contact [http://www
 * Now using WooCommerce's "payment_complete" function so that orders with only downloadable items go directly to completed instead of processing
 * Fix: eliminates duplicate "payment received" messages on emails
 * Fix: Use "new" (2.2+) WooCommerce order status when searching for orders to be set as paid via callback (shame on us)
-* "Commercial information" and "Technical support" information and links on the right of the plugin settings page
+* "Commercial information" and "Technical support" information and links on the right of the plugin settings screen
 * Adjustments in the plugin description and FAQ
 
 = 1.6.2.1 =
 * Fixes a fatal error if WPML String Translation plugin is not active
 
 = 1.6.2 =
-* WPML compatibility: You can now set the english title and description at the plugin's settings page and then go to WPML > String Translation to set the same for each language
+* WPML compatibility: You can now set the english title and description at the plugin's settings screen and then go to WPML > String Translation to set the same for each language
 * Fix: get_icon() throw a notice
 
 = 1.6.1 =
