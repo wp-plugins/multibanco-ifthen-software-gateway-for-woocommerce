@@ -2,7 +2,7 @@
 
 // Multibanco IfThen - Email payment instructions filter
 add_filter('multibanco_ifthen_email_instructions_table_html', 'my_multibanco_ifthen_email_instructions_table_html', 1, 4);
-function my_multibanco_ifthen_email_instructions_table_html($html, $ref, $ent, $order_total) {
+function my_multibanco_ifthen_email_instructions_table_html($html, $ent, $ref, $order_total) {
 	ob_start();
 	?>
 	<h2>Multibanco payment instructions</h2>
@@ -36,7 +36,7 @@ function my_multibanco_ifthen_thankyou_instructions_table_html($html, $ent, $ref
 
 // Multibanco IfThen - SMS Instructions filter
 add_filter('multibanco_ifthen_sms_instructions', 'my_multibanco_ifthen_sms_instructions', 1, 4);
-function my_multibanco_ifthen_sms_instructions($html, $ref, $ent, $order_total) {
+function my_multibanco_ifthen_sms_instructions($html, $ent, $ref, $order_total) {
 	return 'Ent. '.$ent.' Ref. '.$ref.' Val. '.$order_total;
 }
 
