@@ -3,7 +3,7 @@
  * Plugin Name: Multibanco (IfthenPay gateway) for WooCommerce
  * Plugin URI: http://www.webdados.pt/produtos-e-servicos/internet/desenvolvimento-wordpress/multibanco-ifthen-software-gateway-woocommerce-wordpress/
  * Description: This plugin allows Portuguese costumers to pay WooCommerce orders with Multibanco (Pag. Serviços), using the IfthenPay gateway.
- * Version: 1.7.3.1
+ * Version: 1.7.4.1
  * Author: Webdados
  * Author URI: http://www.webdados.pt
  * Text Domain: multibanco_ifthen_for_woocommerce
@@ -51,7 +51,7 @@ if (in_array('woocommerce/woocommerce.php', (array) get_option('active_plugins')
 			global $sitepress;
 			$lang = get_post_meta($order_id, 'wpml_language', TRUE);
 			if(!empty($lang) && $lang!=$sitepress->get_default_language()){
-				$GLOBALS['mb_ifthen_locale']=$sitepress->get_locale($lang); //Set global to be used on mbifthen_lang_fix_wpml_ajax bellow
+				$GLOBALS['mb_ifthen_locale']=$sitepress->get_locale($lang); //Set global to be used on mbifthen_lang_fix_wpml_ajax below
 				add_filter('plugin_locale', 'mbifthen_lang_fix_wpml_ajax', 1, 2);
 				load_plugin_textdomain('multibanco_ifthen_for_woocommerce', false, dirname(plugin_basename(__FILE__)).'/lang/');
 			}
@@ -92,7 +92,7 @@ if (in_array('woocommerce/woocommerce.php', (array) get_option('active_plugins')
 					if ($this->debug) $this->log = new WC_Logger();
 					$this->debug_email = $this->get_option('debug_email');
 					
-					$this->version = '1.7.3.1';
+					$this->version = '1.7.4.1';
 					$this->upgrade();
 
 					load_plugin_textdomain('multibanco_ifthen_for_woocommerce', false, dirname(plugin_basename(__FILE__)) . '/lang/');
@@ -107,10 +107,11 @@ if (in_array('woocommerce/woocommerce.php', (array) get_option('active_plugins')
 					$this->notify_url = (
 											get_option('permalink_structure')==''
 											?
-											str_replace( 'https:', 'http:', home_url( '/' ) ).'?wc-api=WC_Multibanco_IfThen_Webdados&chave=[CHAVE_ANTI_PHISHING]&entidade=[ENTIDADE]&referencia=[REFERENCIA]&valor=[VALOR]'
+											str_replace( 'https:', 'http:', home_url( '/' ) ).'?wc-api=WC_Multibanco_IfThen_Webdados&chave=[CHAVE_ANTI_PHISHING]&entidade=[ENTIDADE]&referencia=[REFERENCIA]&valor=[VALOR]&datahorapag=[DATA_HORA_PAGAMENTO]&terminal=[TERMINAL]'
 											:
-											str_replace( 'https:', 'http:', home_url( '/' ) ).'wc-api/WC_Multibanco_IfThen_Webdados/?chave=[CHAVE_ANTI_PHISHING]&entidade=[ENTIDADE]&referencia=[REFERENCIA]&valor=[VALOR]'
+											str_replace( 'https:', 'http:', home_url( '/' ) ).'wc-api/WC_Multibanco_IfThen_Webdados/?chave=[CHAVE_ANTI_PHISHING]&entidade=[ENTIDADE]&referencia=[REFERENCIA]&valor=[VALOR]&datahorapag=[DATA_HORA_PAGAMENTO]&terminal=[TERMINAL]'
 										);
+					$this->out_link_utm='?utm_source='.rawurlencode(esc_url(home_url('/'))).'&amp;utm_medium=link&amp;utm_campaign=mb_ifthen_plugin';
 
 					//Plugin options and settings
 					$this->init_form_fields();
@@ -244,9 +245,9 @@ if (in_array('woocommerce/woocommerce.php', (array) get_option('active_plugins')
 										'default' => ''
 									),
 						'only_bellow' => array(
-										'title' => __('Only for orders bellow', 'multibanco_ifthen_for_woocommerce'), 
+										'title' => __('Only for orders below', 'multibanco_ifthen_for_woocommerce'), 
 										'type' => 'number', 
-										'description' => __( 'Enable only for orders bellow x &euro; (exclusive). Leave blank (or zero) to allow for any order value.', 'multibanco_ifthen_for_woocommerce').' <br/> '.__( 'By design, Mulitibanco only allows payments from 1 to 999999 &euro; (inclusive). You can use this option to further limit this range.', 'multibanco_ifthen_for_woocommerce'), 
+										'description' => __( 'Enable only for orders below x &euro; (exclusive). Leave blank (or zero) to allow for any order value.', 'multibanco_ifthen_for_woocommerce').' <br/> '.__( 'By design, Mulitibanco only allows payments from 1 to 999999 &euro; (inclusive). You can use this option to further limit this range.', 'multibanco_ifthen_for_woocommerce'), 
 										'default' => ''
 									),
 						'stock_when' => array(
@@ -282,9 +283,9 @@ if (in_array('woocommerce/woocommerce.php', (array) get_option('active_plugins')
 					<div id="wc_ifthen">
 						<div id="wc_ifthen_rightbar">
 							<h4><?php _e('Commercial information', 'multibanco_ifthen_for_woocommerce'); ?>:</h4>
-							<p><a href="http://www.ifthenpay.com" title="<?php echo esc_attr(sprintf(__('Please contact %s', 'multibanco_ifthen_for_woocommerce'), 'IfthenPay')); ?>" target="_blank"><img src="<?php echo plugins_url('images/ifthenpay.png', __FILE__); ?>" width="200"/></a></p>
+							<p><a href="http://www.ifthenpay.com/<?php echo esc_attr($this->out_link_utm); ?>" title="<?php echo esc_attr(sprintf(__('Please contact %s', 'multibanco_ifthen_for_woocommerce'), 'IfthenPay')); ?>" target="_blank"><img src="<?php echo plugins_url('images/ifthenpay.png', __FILE__); ?>" width="200"/></a></p>
 							<h4><?php _e('Technical support or custom WordPress / WooCommerce development', 'multibanco_ifthen_for_woocommerce'); ?>:</h4>
-							<p><a href="http://www.webdados.pt/contactos/" title="<?php echo esc_attr(sprintf(__('Please contact %s', 'multibanco_ifthen_for_woocommerce'), 'Webdados')); ?>" target="_blank"><img src="<?php echo plugins_url('images/webdados.png', __FILE__); ?>" width="200"/></a></p>
+							<p><a href="http://www.webdados.pt/contactos/<?php echo esc_attr($this->out_link_utm); ?>" title="<?php echo esc_attr(sprintf(__('Please contact %s', 'multibanco_ifthen_for_woocommerce'), 'Webdados')); ?>" target="_blank"><img src="<?php echo plugins_url('images/webdados.png', __FILE__); ?>" width="200"/></a></p>
 							<h4><?php _e('Please rate our plugin at WordPress.org', 'multibanco_ifthen_for_woocommerce'); ?>:</h4>
 							<a href="https://wordpress.org/support/view/plugin-reviews/multibanco-ifthen-software-gateway-for-woocommerce?filter=5#postform" target="_blank" style="text-align: center; display: block;">
 								<div class="star-rating"><div class="star star-full"></div><div class="star star-full"></div><div class="star star-full"></div><div class="star star-full"></div><div class="star star-full"></div></div>
@@ -295,9 +296,9 @@ if (in_array('woocommerce/woocommerce.php', (array) get_option('active_plugins')
 							<h3><?php echo $this->method_title; ?> <span style="font-size: 75%;">v.<?php echo $this->version; ?></span></h3>
 							<p><b><?php _e('In order to use this plugin you <u>must</u>:', 'multibanco_ifthen_for_woocommerce'); ?></b></p>
 							<ul class="wc_ifthen_list">
-								<li><?php printf( __('Set WooCommerce currency to <b>Euros (&euro;)</b> %1$s', 'multibanco_ifthen_for_woocommerce'), '<a href="admin.php?page=woocommerce_settings&tab=general">&gt;&gt;</a>.'); ?></li>
-								<li><?php printf( __('Sign a contract with %1$s. To get more informations on this service go to %2$s.', 'multibanco_ifthen_for_woocommerce'), '<b><a href="http://www.ifthenpay.com" target="_blank">IfthenPay</a></b>', '<a href="http://www.ifthenpay.com" target="_blank">http://www.ifthenpay.com</a>'); ?></li>
-								<li><?php _e('Fill in all details (entity and subentity) provided by <b>IfthenPay</b> on the fields bellow.', 'multibanco_ifthen_for_woocommerce'); ?>
+								<li><?php printf( __('Set WooCommerce currency to <b>Euros (&euro;)</b> %1$s', 'multibanco_ifthen_for_woocommerce'), '<a href="admin.php?page=wc-settings&amp;tab=general">&gt;&gt;</a>.'); ?></li>
+								<li><?php printf( __('Sign a contract with %1$s. To get more informations on this service go to %2$s.', 'multibanco_ifthen_for_woocommerce'), '<b><a href="http://www.ifthenpay.com/<?php echo esc_attr($this->out_link_utm); ?>" target="_blank">IfthenPay</a></b>', '<a href="http://www.ifthenpay.com/<?php echo esc_attr($this->out_link_utm); ?>" target="_blank">http://www.ifthenpay.com</a>'); ?></li>
+								<li><?php _e('Fill in all details (entity and subentity) provided by <b>IfthenPay</b> on the fields below.', 'multibanco_ifthen_for_woocommerce'); ?>
 								<li><?php printf( __('Ask IfthenPay to activate "Callback" on your account using this exact URL: %1$s and this Anti-phishing key: %2$s', 'multibanco_ifthen_for_woocommerce'), '<br/><code><b>'.$this->notify_url.'</b></code><br/>', '<br/><code><b>'.$this->secret_key.'</b></code>'); ?></li>
 							</ul>
 							<?php
@@ -334,7 +335,7 @@ if (in_array('woocommerce/woocommerce.php', (array) get_option('active_plugins')
 									</table>
 									<p style="text-align: center; margin-bottom: 0px;">
 										<input type="hidden" id="wc_ifthen_callback_send" name="wc_ifthen_callback_send" value="0"/>
-										<input id="wc_ifthen_callback_submit" class="button-primary" type="submit" value="<?php _e('Ask for Callback activation', 'multibanco_ifthen_for_woocommerce'); ?>"/>
+										<input id="wc_ifthen_callback_submit" class="button-primary" type="button" value="<?php _e('Ask for Callback activation', 'multibanco_ifthen_for_woocommerce'); ?>"/>
 										<input id="wc_ifthen_callback_cancel" class="button" type="button" value="<?php _e('Cancel', 'woocommerce'); ?>"/>
 									</p>
 								</div>
@@ -365,6 +366,7 @@ if (in_array('woocommerce/woocommerce.php', (array) get_option('active_plugins')
 								jQuery('#wc_ifthen_callback_submit').click(function() {
 									if (confirm('<?php echo strip_tags(__('Are you sure you want to ask IfthenPay to activate the "Callback"?', 'multibanco_ifthen_for_woocommerce')); ?>')) {
 										jQuery('#wc_ifthen_callback_send').val(1);
+										jQuery('#mainform').submit();
 										return true;
 									} else {
 										return false;
@@ -378,7 +380,7 @@ if (in_array('woocommerce/woocommerce.php', (array) get_option('active_plugins')
 								$this->generate_settings_html();
 							} else {
 								?>
-								<p><b><?php _e('ERROR!', 'multibanco_ifthen_for_woocommerce'); ?> <?php printf( __('Set WooCommerce currency to <b>Euros (&euro;)</b> %1$s', 'multibanco_ifthen_for_woocommerce'), '<a href="admin.php?page=woocommerce_settings&tab=general">'.__('here', 'multibanco_ifthen_for_woocommerce').'</a>.'); ?></b></p>
+								<p><b><?php _e('ERROR!', 'multibanco_ifthen_for_woocommerce'); ?> <?php printf( __('Set WooCommerce currency to <b>Euros (&euro;)</b> %1$s', 'multibanco_ifthen_for_woocommerce'), '<a href="admin.php?page=wc-settings&amp;tab=general">'.__('here', 'multibanco_ifthen_for_woocommerce').'</a>.'); ?></b></p>
 								<?php
 							}
 							?>
@@ -918,7 +920,14 @@ Email enviado automaticamente do plugin WordPress "Multibanco (IfthenPay gateway
 										
 										/*if ($this->stock_when=='') $order->reduce_order_stock();
 										$order->update_status('processing', __('Multibanco payment received.', 'multibanco_ifthen_for_woocommerce')); //Paid */
-										$this->payment_complete($order, '', __('Multibanco payment received.', 'multibanco_ifthen_for_woocommerce'));
+										$note=__('Multibanco payment received.', 'multibanco_ifthen_for_woocommerce');
+										if (isset($_GET['datahorapag']) && trim($_GET['datahorapag'])!='') {
+											$note.=' '.trim($_GET['datahorapag']);
+										}
+										if (isset($_GET['terminal']) && trim($_GET['terminal'])!='') {
+											$note.=' '.trim($_GET['terminal']);
+										}
+										$this->payment_complete($order, '', $note);
 										
 										header('HTTP/1.1 200 OK');
 										if ($this->debug) $this->log->add($this->id, '-- Multibanco payment received');
@@ -991,6 +1000,8 @@ Email enviado automaticamente do plugin WordPress "Multibanco (IfthenPay gateway
 				$callback_url=str_replace('[ENTIDADE]', trim($meta_values['_multibanco_ifthen_for_woocommerce_ent'][0]), $callback_url);
 				$callback_url=str_replace('[REFERENCIA]', trim($meta_values['_multibanco_ifthen_for_woocommerce_ref'][0]), $callback_url);
 				$callback_url=str_replace('[VALOR]', $order->order_total, $callback_url);
+				$callback_url=str_replace('[DATA_HORA_PAGAMENTO]', '', $callback_url);
+				$callback_url=str_replace('[TERMINAL]', 'Testing', $callback_url);
 				?>
 				<hr/>
 				<p>
