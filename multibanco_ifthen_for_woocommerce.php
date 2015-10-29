@@ -3,7 +3,7 @@
  * Plugin Name: Multibanco (IfthenPay gateway) for WooCommerce
  * Plugin URI: http://www.webdados.pt/produtos-e-servicos/internet/desenvolvimento-wordpress/multibanco-ifthen-software-gateway-woocommerce-wordpress/
  * Description: This plugin allows Portuguese costumers to pay WooCommerce orders with Multibanco (Pag. Serviços), using the IfthenPay gateway.
- * Version: 1.7.4.1
+ * Version: 1.7.5
  * Author: Webdados
  * Author URI: http://www.webdados.pt
  * Text Domain: multibanco_ifthen_for_woocommerce
@@ -28,7 +28,7 @@ if (in_array('woocommerce/woocommerce.php', (array) get_option('active_plugins')
 	add_action('plugins_loaded', 'mbifthen_lang');
 	function mbifthen_lang() {
 		//If WPML is present and we're loading via ajax, let's try to fix the locale
-		if (function_exists('icl_object_id')) {
+		if (function_exists('icl_object_id') && function_exists('wpml_is_ajax')) {
 			if (wpml_is_ajax()) {
 				if (ICL_LANGUAGE_CODE!='en') {
 					add_filter('plugin_locale', 'mbifthen_lang_fix_wpml_ajax', 1, 2);
@@ -92,7 +92,7 @@ if (in_array('woocommerce/woocommerce.php', (array) get_option('active_plugins')
 					if ($this->debug) $this->log = new WC_Logger();
 					$this->debug_email = $this->get_option('debug_email');
 					
-					$this->version = '1.7.4.1';
+					$this->version = '1.7.5';
 					$this->upgrade();
 
 					load_plugin_textdomain('multibanco_ifthen_for_woocommerce', false, dirname(plugin_basename(__FILE__)) . '/lang/');
@@ -113,6 +113,9 @@ if (in_array('woocommerce/woocommerce.php', (array) get_option('active_plugins')
 										);
 					$this->out_link_utm='?utm_source='.rawurlencode(esc_url(home_url('/'))).'&amp;utm_medium=link&amp;utm_campaign=mb_ifthen_plugin';
 
+					//WPML?
+					$this->wpml = function_exists('icl_object_id') && function_exists('icl_register_string');
+
 					//Plugin options and settings
 					$this->init_form_fields();
 					$this->init_settings();
@@ -120,6 +123,7 @@ if (in_array('woocommerce/woocommerce.php', (array) get_option('active_plugins')
 					//User settings
 					$this->title = $this->get_option('title');
 					$this->description = $this->get_option('description');
+					$this->extra_instructions = $this->get_option('extra_instructions');
 					$this->ent = $this->get_option('ent');
 					$this->subent = $this->get_option('subent');
 					$this->only_portugal = $this->get_option('only_portugal');
@@ -130,7 +134,7 @@ if (in_array('woocommerce/woocommerce.php', (array) get_option('active_plugins')
 					// Actions and filters
 					add_action('woocommerce_update_options_payment_gateways_'.$this->id, array($this, 'process_admin_options'));
 					add_action('woocommerce_update_options_payment_gateways_'.$this->id, array($this, 'send_callback_email'));
-					if (function_exists('icl_object_id') && function_exists('icl_register_string')) add_action('woocommerce_update_options_payment_gateways_' . $this->id, array($this, 'register_wpml_strings'));
+					if ($this->wpml) add_action('woocommerce_update_options_payment_gateways_' . $this->id, array($this, 'register_wpml_strings'));
 					add_action('woocommerce_thankyou_'.$this->id, array($this, 'thankyou'));
 					add_filter('woocommerce_available_payment_gateways', array($this, 'disable_unless_portugal'));
 					add_filter('woocommerce_available_payment_gateways', array($this, 'disable_only_above_or_bellow'));
@@ -177,7 +181,9 @@ if (in_array('woocommerce/woocommerce.php', (array) get_option('active_plugins')
 						'title',
 						'description',
 					);*/
-					$to_register=array();
+					$to_register=array(
+						'extra_instructions'
+					);
 					foreach($to_register as $string) {
 						icl_register_string($this->id, $this->id.'_'.$string, $this->settings[$string]);
 					}
@@ -223,14 +229,23 @@ if (in_array('woocommerce/woocommerce.php', (array) get_option('active_plugins')
 						'title' => array(
 										'title' => __('Title', 'woocommerce' ), 
 										'type' => 'text', 
-										'description' => __('This controls the title which the user sees during checkout.', 'woocommerce'), 
+										'description' => __('This controls the title which the user sees during checkout.', 'woocommerce')
+														.($this->wpml ? ' '.__('You should translate this string in <a href="admin.php?page=wpml-string-translation%2Fmenu%2Fstring-translation.php">WPML - String Translation</a> after saving the settings', 'multibanco_ifthen_for_woocommerce') : ''), 
 										'default' => __('Pagamento de Serviços no Multibanco', 'multibanco_ifthen_for_woocommerce')
 									),
 						'description' => array(
 										'title' => __('Description', 'woocommerce' ), 
 										'type' => 'textarea',
-										'description' => __('This controls the description which the user sees during checkout.', 'woocommerce' ), 
+										'description' => __('This controls the description which the user sees during checkout.', 'woocommerce' )
+														.($this->wpml ? ' '.__('You should translate this string in <a href="admin.php?page=wpml-string-translation%2Fmenu%2Fstring-translation.php">WPML - String Translation</a> after saving the settings', 'multibanco_ifthen_for_woocommerce') : ''), 
 										'default' => __('Easy and simple payment using "Pagamento de Serviços" at any "Multibanco" ATM terminal or your Home Banking service. (Only available to customers of Portuguese banks. Payment service provided by IfthenPay.)', 'multibanco_ifthen_for_woocommerce')
+									),
+						'extra_instructions' => array(
+										'title' => __('Extra instructions', 'woocommerce' ), 
+										'type' => 'textarea',
+										'description' => __('This controls the text which the user sees below the payment details on the "Thank you" page and "New order" email.', 'woocommerce' )
+														.($this->wpml ? ' '.__('You should translate this string in <a href="admin.php?page=wpml-string-translation%2Fmenu%2Fstring-translation.php">WPML - String Translation</a> after saving the settings', 'multibanco_ifthen_for_woocommerce') : ''), 
+										'default' => __('The receipt issued by the ATM machine is a proof of payment. Keep it.', 'multibanco_ifthen_for_woocommerce')
 									),
 						'only_portugal' => array(
 										'title' => __('Only for Portuguese customers?', 'multibanco_ifthen_for_woocommerce'), 
@@ -470,7 +485,7 @@ Email enviado automaticamente do plugin WordPress "Multibanco (IfthenPay gateway
 				 * Icon HTML
 				 */
 				public function get_icon() {
-					$alt=(function_exists('icl_object_id') ? icl_t($this->id, $this->id.'_title', $this->title) : $this->title);
+					$alt=($this->wpml ? icl_t($this->id, $this->id.'_title', $this->title) : $this->title);
 					$icon_html = '<img src="'.esc_attr($this->icon).'" alt="'.esc_attr($alt).'" />';
 					return apply_filters('woocommerce_gateway_icon', $icon_html, $this->id);
 				}
@@ -490,7 +505,8 @@ Email enviado automaticamente do plugin WordPress "Multibanco (IfthenPay gateway
 					}
 				}
 				function thankyou_instructions_table_html($ent, $ref, $order_total) {
-					$alt=(function_exists('icl_object_id') ? icl_t($this->id, $this->id.'_title', $this->title) : $this->title);
+					$alt=($this->wpml ? icl_t($this->id, $this->id.'_title', $this->title) : $this->title);
+					$extra_instructions=($this->wpml ? icl_t($this->id, $this->id.'_extra_instructions', $this->extra_instructions) : $this->extra_instructions);
 					ob_start();
 					?>
 					<style type="text/css">
@@ -536,7 +552,7 @@ Email enviado automaticamente do plugin WordPress "Multibanco (IfthenPay gateway
 							<td><?php echo $order_total; ?> &euro;</td>
 						</tr>
 						<tr>
-							<td colspan="2" style="font-size: small;"><?php _e('The receipt issued by the ATM machine is a proof of payment. Keep it.', 'multibanco_ifthen_for_woocommerce'); ?></td>
+							<td colspan="2" style="font-size: small;"><?php echo nl2br($extra_instructions); ?></td>
 						</tr>
 					</table>
 					<?php
@@ -575,7 +591,8 @@ Email enviado automaticamente do plugin WordPress "Multibanco (IfthenPay gateway
 					}
 				}
 				function email_instructions_table_html($ent, $ref, $order_total) {
-					$alt=(function_exists('icl_object_id') ? icl_t($this->id, $this->id.'_title', $this->title) : $this->title);
+					$alt=($this->wpml ? icl_t($this->id, $this->id.'_title', $this->title) : $this->title);
+					$extra_instructions=($this->wpml ? icl_t($this->id, $this->id.'_extra_instructions', $this->extra_instructions) : $this->extra_instructions);
 					ob_start();
 					?>
 					<table cellpadding="10" cellspacing="0" align="center" border="0" style="margin: auto; margin-top: 10px; margin-bottom: 10px; border-collapse: collapse; border: 1px solid #1465AA; border-radius: 4px !important; background-color: #FFFFFF;">
@@ -599,7 +616,7 @@ Email enviado automaticamente do plugin WordPress "Multibanco (IfthenPay gateway
 							<td style="border: 1px solid #1465AA; color: #000000; white-space: nowrap;"><?php echo $order_total; ?> &euro;</td>
 						</tr>
 						<tr>
-							<td style="font-size: x-small; border: 1px solid #1465AA; border-bottom-right-radius: 4px !important; border-bottom-left-radius: 4px !important; color: #000000; text-align: center;" colspan="2"><?php _e('The receipt issued by the ATM machine is a proof of payment. Keep it.', 'multibanco_ifthen_for_woocommerce'); ?></td>
+							<td style="font-size: x-small; border: 1px solid #1465AA; border-bottom-right-radius: 4px !important; border-bottom-left-radius: 4px !important; color: #000000; text-align: center;" colspan="2"><?php echo nl2br($extra_instructions); ?></td>
 						</tr>
 					</table>
 					<?php

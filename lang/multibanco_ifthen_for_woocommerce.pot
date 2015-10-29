@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Multibanco (IfthenPay gateway) for WooCommerce 1.7\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/support/plugin/multibanco-ifthen-software-gateway-for-woocommerce\n"
-"POT-Creation-Date: 2015-08-27 18:19+0100\n"
+"POT-Creation-Date: 2015-10-29 12:27+0000\n"
 "Last-Translator: Webdados <info@webdados.pt>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -26,6 +26,10 @@ msgstr ""
 
 #: multibanco_ifthen_for_woocommerce.php:200
 msgid "Enable \"Pagamento de Serviços no Multibanco\" (using IfthenPay)"
+msgstr ""
+
+#: multibanco_ifthen_for_woocommerce.php:242
+msgid "This controls the text which the user sees below the payment details on the \"Thank you\" page and \"New order\" email."
 msgstr ""
 
 #: multibanco_ifthen_for_woocommerce.php:204

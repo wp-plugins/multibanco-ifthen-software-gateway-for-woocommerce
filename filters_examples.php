@@ -13,6 +13,11 @@ function my_multibanco_ifthen_email_instructions_table_html($html, $ent, $ref, $
 		<br/>
 		<b>Value:</b> <?php echo $order_total; ?>
 	</p>
+	<p><?php
+	$mb=new WC_Multibanco_IfThen_Webdados();
+	//With WPML
+	echo nl2br(function_exists('icl_object_id') ? icl_t($mb->id, $mb->id.'_extra_instructions', $mb->extra_instructions) : $mb->extra_instructions);
+	?></p>
 	<?php
 	return ob_get_clean();
 }
@@ -30,6 +35,11 @@ function my_multibanco_ifthen_thankyou_instructions_table_html($html, $ent, $ref
 		<br/>
 		<b>Value:</b> <?php echo $order_total; ?>
 	</p>
+	<p><?php
+	$mb=new WC_Multibanco_IfThen_Webdados();
+	//Without WPML
+	echo $mb->extra_instructions;
+	?></p>
 	<?php
 	return ob_get_clean();
 }

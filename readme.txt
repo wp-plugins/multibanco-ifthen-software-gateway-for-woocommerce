@@ -5,7 +5,7 @@ Author URI: http://www.webdados.pt
 Plugin URI: http://www.webdados.pt/produtos-e-servicos/internet/desenvolvimento-wordpress/multibanco-ifthen-software-gateway-woocommerce-wordpress/
 Requires at least: 3.8
 Tested up to: 4.3
-Stable tag: 1.7.4.1
+Stable tag: 1.7.5
 
 This plugin allows Portuguese costumers to pay WooCommerce orders with Multibanco (Pag. Serviços), using the IfthenPay payment gateway.
 
@@ -77,8 +77,14 @@ For premium/urgent support or custom developments you should contact [Webdados](
 
 == Changelog ==
 
+= 1.7.5 =
+* It's now possible to set the extra instructions text below the payment details table on the "Thank you" page and "New order" email on the plugin settings screen
+* Small adjustments on the WPML detection code
+* Fix: Polylang conflict (Thanks fana605)
+* Updated filters examples
+
 = 1.7.4.1 =
-* Minor fix on wrong links to set the WooCommerce currency
+* Minor fix on wrong links to set the WooCommerce currency (Thanks JLuis Freitas)
 
 = 1.7.4 =
 * Added new debug variables to the callback URL: date and time of payment and used terminal (this information will only be visible on the "Order Notes" administration panel)
@@ -152,7 +158,7 @@ For premium/urgent support or custom developments you should contact [Webdados](
 * Removed unused "add_meta_box" code
 
 = 1.4.1 =
-* Minor Multibanco logo improvements (thanks to Gumelo)
+* Minor Multibanco logo improvements (Thanks Gumelo)
 * Fix: Small bug when detecting multisite installs
 
 = 1.4 =
