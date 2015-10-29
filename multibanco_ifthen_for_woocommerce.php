@@ -1063,6 +1063,6 @@ Email enviado automaticamente do plugin WordPress "Multibanco (IfthenPay gateway
 	}
 	add_filter('woocommerce_shop_order_search_fields', 'mbifthen_shop_order_search');
 
-	/* If you're reading this you must know what you're doing ;-) Greetings from sunny Portugal! */
+	/* If you're reading this you must know what you're doing (or you are a "luso copycat") ;-) Greetings from sunny Portugal! */
 	
 }
