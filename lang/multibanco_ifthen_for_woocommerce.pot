@@ -195,6 +195,14 @@ msgstr ""
 msgid "here"
 msgstr ""
 
+#: multibanco_ifthen_for_woocommerce.php:388
+msgid "Invalid Entity (exactly 5 numeric characters) and/or Subentity (1 to 3 numeric characters)."
+msgstr ""
+
+#: multibanco_ifthen_for_woocommerce.php:394
+msgid "Set the Entity/Subentity and Save changes to set the other plugin options."
+msgstr ""
+
 #: multibanco_ifthen_for_woocommerce.php:463
 msgid "The \"Callback\" activation request has been submited to IfthenPay. Wait for their feedback."
 msgstr ""

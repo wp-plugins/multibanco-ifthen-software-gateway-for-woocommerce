@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: Multibanco (IfthenPay gateway) for WooCommerce v1.6\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/support/plugin/multibanco-ifthen-"
 "software-gateway-for-woocommerce\n"
-"POT-Creation-Date: 2015-10-29 12:27+0000\n"
-"PO-Revision-Date: 2015-10-29 12:30+0000\n"
+"POT-Creation-Date: 2015-11-10 18:58+0000\n"
+"PO-Revision-Date: 2015-11-10 19:00+0000\n"
 "Last-Translator: Wonderm00n <wonderm00n@gmail.com>\n"
 "Language-Team: Wonderm00n <wonderm00n@gmail.com>\n"
 "Language: pt_PT\n"
@@ -277,6 +277,21 @@ msgstr "ERRO!"
 #: multibanco_ifthen_for_woocommerce.php:318
 msgid "here"
 msgstr "aqui"
+
+#: multibanco_ifthen_for_woocommerce.php:388
+msgid ""
+"Invalid Entity (exactly 5 numeric characters) and/or Subentity (1 to 3 "
+"numeric characters)."
+msgstr ""
+"Entidade (exactamente 5 caracteres numéricos) e/ou Subentidade (1 a 3 "
+"caracteres numéricos) inválida(s)."
+
+#: multibanco_ifthen_for_woocommerce.php:394
+msgid ""
+"Set the Entity/Subentity and Save changes to set the other plugin options."
+msgstr ""
+"Defina a Entidade/Subentidade e clique em Guardar alterações para poder "
+"definir as restantes opções."
 
 #: multibanco_ifthen_for_woocommerce.php:463
 msgid ""
